@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import SupplyDiagram from './SupplyDiagram.jsx';
 import SupplyCurve from './SupplyCurve.jsx';
 
 export default function App() {
