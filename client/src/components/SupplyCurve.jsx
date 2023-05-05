@@ -21,10 +21,12 @@ export default function SupplyCurve (props) {
   const [playIncorrect] = useSound(incorrect);
   const [coins, setCoins] = useState([coin, coin, coin])
 
+
   useEffect(() => {
     setNextQuestion();
     console.log(questions);
   }, []);
+
 
   const setNextQuestion = () => {
     // console.log('percent', prog);

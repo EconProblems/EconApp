@@ -35,7 +35,6 @@
     "@testing-library/user-event": "^14.4.3",
     "babel-loader": "^9.1.2",
     "chai": "^4.3.7",
-    "css-loader": "^6.7.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "file-loader": "^6.2.0",
@@ -52,14 +51,21 @@
     "react-draggable": "^4.4.5",
     "react-progressbar": "^15.4.1",
     "react-test-renderer": "^18.2.0",
-    "style-loader": "^3.3.1",
-    "use-sound": "^4.0.1",
-    "webpack": "^5.75.0"
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
+    "autoprefixer": "^10.4.14",
+    "css-loader": "^6.7.3",
     "jest": "^29.4.3",
     "nodemon": "^2.0.21",
-    "webpack-cli": "^5.0.2"
+    "postcss": "^8.4.23",
+    "postcss-loader": "^7.3.0",
+    "postcss-preset-env": "^8.3.2",
+    "style-loader": "^3.3.2",
+    "tailwindcss": "^3.3.2",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.0.2",
+    "webpack-dev-server": "^4.13.3"
   }
 }
