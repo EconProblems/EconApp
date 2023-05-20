@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SupplyCurve from './SupplyCurve.jsx';
 import FourOhFour from './404.jsx';
+import GamePath from './GamePath/GamePath.jsx'
 
 export default function App() {
   const [view, setView] = useState({ name: "App" });
@@ -18,6 +19,7 @@ export default function App() {
           <div>
             <h1>Welcome to EconProblems</h1>
             <p>Here we go</p>
+            <GamePath />
             <div>
             <form onSubmit={handleSupplyCurveSubmit}>
               <button type="submit">Supply!</button>
