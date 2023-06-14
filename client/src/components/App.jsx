@@ -3,7 +3,7 @@ import SupplyCurve from './SupplyCurve.jsx';
 import SupplyCurve2 from './SupplyCurve2.jsx';
 import SupplyCurve3 from './SupplyCurve3.jsx';
 import FourOhFour from './404.jsx';
-import GamePath from './GamePath/GamePath.jsx'
+import GamePath from './GamePath/GamePath.jsx';
 
 export default function App() {
   const [view, setView] = useState({ name: "App" });
