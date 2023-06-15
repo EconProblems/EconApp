@@ -11,9 +11,7 @@ import FourOhFour from "./404.jsx";
 import GamePath from "./GamePath/GamePath.jsx";
 
 export default function App() {
-  // const [view, setView] = useState({ name: "theme" });
   const [view, setView] = useState({ name: "App" });
-
 
   const changeView = (name) => {
     setView({ name });
@@ -72,5 +70,10 @@ export default function App() {
     changeView("SupplyCurve3");
   };
 
-  return <ThemeProvider theme={theme}>{renderView()}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <img src="/images/Econ3.png" alt="logo" width="200px"/>
+      <>{renderView()}</>
+    </ThemeProvider>
+  );
 }
