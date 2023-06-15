@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { ThemeProvider } from "@mui/material/styles";
-// import theme from '../themes/default.jsx';
-// import ThemeExample from './ThemeExample.jsx';
+import { Typography } from '@mui/material';
+import theme from '../themes/default.jsx';
+import ThemeExample from './ThemeExample.jsx';
 import { CssBaseline, Box, Container } from "@mui/material/";
 import SupplyCurve from "./SupplyCurve.jsx";
 import SupplyCurve2 from "./SupplyCurve2.jsx";
@@ -31,8 +32,8 @@ export default function App() {
       case "App":
         return (
           <div>
-            <h1>Welcome to EconProblems</h1>
-            <p>Here we go</p>
+            <Typography variant='h1'>Welcome to EconProblems</Typography>
+            <Typography variant='bodytext'>Here we go</Typography>
             <GamePath />
             <div>
               <form onSubmit={handleSupplyCurveSubmit}>
@@ -71,6 +72,5 @@ export default function App() {
     changeView("SupplyCurve3");
   };
 
-  return <div>{renderView()}</div>
-  // return <ThemeProvider theme={theme}>{renderView()}</ThemeProvider>;
+  return <ThemeProvider theme={theme}>{renderView()}</ThemeProvider>;
 }

@@ -13,14 +13,13 @@ const theme = createTheme({
   palette: {
     contrastThreshold: 4.5,
     primary: {
-      blue: "#345995",
-      mint: "#03cea4",
-      razzmatazz: "#E40066",
-      saffron: "#eac435",
-      tomato: "#fb4d3d",
+      dark: "#345995",
+      main: "#E40066",
+      light: "#eac435"
     },
     secondary: {
-      black: "#000000",
+      dark: "#fb4d3d",
+      main: "#03cea4"
     },
     background: {
       default: "#ffffff",
@@ -46,6 +45,7 @@ const theme = createTheme({
       },
       fontWeight: 700,
       lineHeight: "calc(150%)",
+      color: "#03cea4"
     },
     h2: {
       fontSize: {
@@ -56,6 +56,7 @@ const theme = createTheme({
       },
       fontWeight: 700,
       lineHeight: "calc(150%)",
+      color: "#E40066"
     },
     h3: {
       fontSize: {
@@ -66,6 +67,7 @@ const theme = createTheme({
       },
       fontWeight: 700,
       lineHeight: "calc(150%)",
+      color: "#345995"
     },
     h4: {
       fontSize: {
@@ -107,6 +109,7 @@ const theme = createTheme({
       },
       fontWeight: 400,
       lineHeight: "calc(150%)",
+      color: "#345995"
     },
   },
   components: {
