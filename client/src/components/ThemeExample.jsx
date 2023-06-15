@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
-export default ThemeExample = () => {
+export default function ThemeExample() {
   const theme = useTheme();
 
   var cardStyle = {
