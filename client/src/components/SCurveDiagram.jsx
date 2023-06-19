@@ -2,37 +2,31 @@ import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
 import SCurve from "../../dist/SCurve.png";
 import diagram from "../../dist/diagram.png";
-import useSound from 'use-sound';
 
 export default function SCurveDiagram (props) {
   const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
   const [xPos, setXPos] = useState(100);
   const [curPos, setCurPos] = useState('');
 
+  useEffect(() => {
+    setCurrentQuestion(props.currentQuestion); // Update the currentQuestion state when the prop changes
+    setXPos(100);
+  }, [props.currentQuestion]);
+
   const handleDrag = (e, ui) => {
     const { x } = ui;
     if (x < 100) {
       setXPos(0);
-      setCurPos('left');
+      props.setCurPos('left');
     } else if (x >= 100) {
       setXPos(200);
-      setCurPos('right');
+      props.setCurPos('right');
     } else {
       setXPos(x);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (currentQuestion.pos === curPos) {
-      setXPos(100);
-      setProg(prog + percent);
-      setNextQuestion();
-    } else {
-      setXPos(100);
-      incorrectSetNextQuestion();
-    }
-  };
+
 
 
   return (
@@ -44,7 +38,7 @@ export default function SCurveDiagram (props) {
         </Draggable>
         <p>{currentQuestion && currentQuestion.question}</p>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={props.handleDiagramSubmit}>
         <button style={{
           position: "absolute",
           bottom: "20px",
