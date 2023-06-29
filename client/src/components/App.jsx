@@ -9,9 +9,18 @@ import SupplyCurve2 from "./SupplyCurve2.jsx";
 import SupplyCurve3 from "./SupplyCurve3.jsx";
 import FourOhFour from "./404.jsx";
 import GamePath from "./GamePath/GamePath.jsx";
+import Login from "./Login.jsx"
+import NewUser from "./NewUser.jsx"
+
 
 export default function App() {
   const [view, setView] = useState({ name: "App" });
+  const [user, setUser] = useState([]);
+  const [userProfileData, setUserProfileData] = useState([]);
+  const [isUser, setIsUser] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [displayNewUser, setDisplayNewUser] = useState(false);
+  const [noUserName, setNoUserName] =useState(false);
 
   const changeView = (name) => {
     setView({ name });
@@ -30,9 +39,7 @@ export default function App() {
       case "App":
         return (
           <div>
-            <Typography variant='h1'>Welcome to EconProblems</Typography>
-            <Typography variant='bodytext'>Here we go</Typography>
-            <GamePath />
+            {/* <GamePath /> */}
             <div>
               <form onSubmit={handleSupplyCurveSubmit}>
                 <button type="submit">Supply!</button>
@@ -70,10 +77,21 @@ export default function App() {
     changeView("SupplyCurve3");
   };
 
+  const handleNewUserSubmit = () => {
+    console.log('clicked button');
+    setDisplayNewUser(true);
+  };
+
+
   return (
     <ThemeProvider theme={theme}>
+      <Typography variant='h1'>Welcome to EconProblems</Typography>
       <img src="/images/Econ3.png" alt="logo" width="200px"/>
-      <>{renderView()}</>
+      {!loggedIn && <Login setIsUser={setIsUser} setNoUserName={setNoUserName} user={user} setUser={setUser} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
+      {noUserName && <span style={{color: "red"}}>No user attached to this account yet.</span>}
+      {displayNewUser && <NewUser setUserProfileData={setUserProfileData} setIsUser={setIsUser} setNoUserName={setNoUserName} setUser={setUser} user={user} setLoggedIn={setLoggedIn} loggedIn={loggedIn} setDisplayNewUser={setDisplayNewUser}/>}
+      {!isUser && !displayNewUser && <button onClick={handleNewUserSubmit}>Create Account</button>}
+      {isUser && loggedIn && renderView()}
     </ThemeProvider>
   );
 }

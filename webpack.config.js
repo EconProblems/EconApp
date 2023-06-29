@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
@@ -51,8 +52,20 @@ module.exports = {
         exclude: /\.module\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.env$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'dotenv-webpack'
+          }
+        ]
+      }
     ]
   },
+  plugins: [
+    new Dotenv()
+  ],
   devServer: {
     contentBase: './dist',
     port: 3000

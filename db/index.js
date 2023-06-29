@@ -1,44 +1,50 @@
-const mongoose = require('mongoose');
+const {Users} = require("./models.js");
+const mongoose = require("mongoose");
 
 
-let userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  skills: {},
-  friends: [],
-  streak: {
-    type: Number,
-    default: 0
+let userCheck = async (user) => {
+  try {
+    console.log('here is user in userCheck', user)
+    const foundUser = await Users.findOne({ id: user }).exec();
+    if (foundUser) {
+      // User exists
+      console.log('User found:', foundUser);
+      return foundUser;
+    } else {
+      // User does not exist
+      console.log('User not found');
+      return null;
+    }
+  } catch (err) {
+    console.error(err);
+    throw err; // Rethrow the error to be caught in the calling function
   }
-});
+};
 
-let Users = mongoose.model('Users', userSchema);
+let userCreateInDB = async (user) => {
+  console.log("userCreateInDB triggered", user)
+  const userObj = user.userReqInfo;
+  console.log("here is userObj ", userObj)
 
-let problemSchema = mongoose.Schema({
-  lesson: { type: String, index: true },
-  problems: [{
-    problem_id: { type: Number, index: true },
-    question: String,
-    question_img: String,
-    response: String,
-    body: String,
-    date: String,
-    reviewer_name: String,
-    helpfulness: Number,
-    photos: [{id: Number, url: String}],
-    characteristics: [{name: String, id: { type: Number, index: true }, charId: Number, value: Number}]
-  }]
-});
+  try {
+    const newUser = new Users({
+      name: userObj.user.userName,
+      userName: userObj.formData,
+      id: userObj.user._id,
+      skills: {},
+      friends: [],
+      streak: 0
+    });
 
-let ProblemsSchema = mongoose.model('Problems', problemSchema);
-let UsersSchema = mongoose.model('Users', UserSchema);
+    await newUser.save();
+    console.log('User created:', newUser);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
 
-
-module.exports = {Problems: ProblemsSchema, Users: UsersSchema}
+module.exports = {
+  userCheck,
+  userCreateInDB
+};
