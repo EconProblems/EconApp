@@ -19,6 +19,7 @@ const userCreate = async (req, res) => {
   const userInfo = req.body;
   try {
     await userCreateInDB(userInfo);
+    res.cookie('authToken', 'your-auth-token', { maxAge: 86400000 }); // Set the cookie with a 24-hour expiration time (86400000 milliseconds)
     res.sendStatus(204);
   } catch (err) {
     console.error('error from user create ', err);
