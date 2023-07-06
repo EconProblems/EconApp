@@ -9,6 +9,7 @@ const { userGet, userCreate } = require("./routes/userRoutes.js");
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
+
 const app = express();
 app.use(express.json());
 
@@ -21,7 +22,7 @@ app.use(
   })
 );
 
-const port = process.env.PORT || 3000; // Use the environment variable for port or default to 3000
+const port = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://localhost/EconApp');
 
@@ -45,20 +46,23 @@ app.get('/logout', (req, res) => {
   });
 });
 
-if (process.env.NODE_ENV === 'production') {
-  // HTTPS server configuration
-  const options = {
-    key: process.env.PRIVATE_KEY ? Buffer.from(process.env.PRIVATE_KEY, 'base64') : fs.readFileSync('./538c290a9dc1db2b.pem'),
-    cert: process.env.CERTIFICATE ? Buffer.from(process.env.CERTIFICATE, 'base64') : fs.readFileSync('./538c290a9dc1db2b.crt'),
-  };
 
-  // Create the HTTPS server
-  https.createServer(options, app).listen(port, () => {
-    console.log(`Server listening on port ${port} (HTTPS) in production mode`);
+
+
+
+if (process.env.NODE_ENV === 'production') {
+  const key = process.env.PRIVATE_KEY;
+  const cert = process.env.CERTIFICATE;
+
+  const credentials = { key, cert };
+  // HTTPS server configuration
+  const httpsServer = https.createServer(credentials, app);
+  httpsServer.listen(port, () => {
+    console.log("HTTPS: listening on port 3000");
   });
 } else {
   // Start the HTTP server in development mode
   http.createServer(app).listen(port, () => {
-    console.log(`Server listening on port ${port} (HTTP) in development mode`);
+    console.log("server in development mode");
   });
 }
