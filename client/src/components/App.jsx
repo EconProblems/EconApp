@@ -123,7 +123,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Typography variant="h1">Welcome to EconProblems</Typography>
       <img src="/images/Econ3.png" alt="logo" width="200px" />
-      {!loggedIn && (
+      {/* {!loggedIn && (
         <Login
           setIsUser={setIsUser}
           setNoUserName={setNoUserName}
@@ -132,13 +132,13 @@ export default function App() {
           loggedIn={loggedIn}
           setLoggedIn={setLoggedIn}
         />
-      )}
+      )} */}
       {noUserName && (
         <span style={{ color: "red" }}>
           No user attached to this account yet.
         </span>
       )}
-      {displayNewUser && (
+      {/* {displayNewUser && (
         <NewUser
           setUserProfileData={setUserProfileData}
           setIsUser={setIsUser}
@@ -149,16 +149,21 @@ export default function App() {
           loggedIn={loggedIn}
           setDisplayNewUser={setDisplayNewUser}
         />
-      )}
-      {!isUser && !displayNewUser && (
+      )} */}
+      {/* {!isUser && !displayNewUser && (
         <button onClick={handleNewUserSubmit}>Create Account</button>
-      )}
-      {isUser && loggedIn && (
+      )} */}
+      {/* commented out below for dev */}
+      {/* {isUser && loggedIn && (
         <div>
           {renderView()}
           <button onClick={handleLogout}>Logout</button>
         </div>
-      )}
+      )} */}
+      <div>
+        {renderView()}
+        <button onClick={handleLogout}>Logout</button>
+      </div>
     </ThemeProvider>
   );
 }
