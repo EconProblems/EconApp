@@ -47,21 +47,26 @@ app.get('/logout', (req, res) => {
 });
 
 
-
-
-
 if (process.env.NODE_ENV === 'production') {
-  const key = process.env.PRIVATE_KEY;
-  const cert = process.env.CERTIFICATE;
 
-  const credentials = { key, cert };
-  // HTTPS server configuration
+  // const privateKey = fs.readFileSync("./server/server.key",'utf8')
+  // const certificate = fs.readFileSync("./server/156ce794f5e68c57.crt",'utf8');
+  // const caBundle = fs.readFileSync('./server/gd_bundle-g2-g1.crt','utf8');
+
+  const privateKey = process.env.PRIVATE_KEY
+  const certificate = process.env.CERTIFICATE
+  const caBundle = process.env.BUNDLE
+
+  var credentials = { key: privateKey, cert: certificate, ca: caBundle };
+
   const httpsServer = https.createServer(credentials, app);
+  httpsServer.on('error', (error) => {
+    console.error('HTTPS server error:', error);
+  });
   httpsServer.listen(port, () => {
     console.log("HTTPS: listening on port 3000");
   });
 } else {
-  // Start the HTTP server in development mode
   http.createServer(app).listen(port, () => {
     console.log("server in development mode");
   });

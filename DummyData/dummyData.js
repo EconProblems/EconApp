@@ -28,7 +28,7 @@ const supplyQuestions = [
     pos:'right'
   },
   {
-    question: 'What will happen to the supoply of shirts if cotton plants are engineered to have a greater yield with less water?',
+    question: 'What will happen to the supply of shirts if cotton plants are engineered to have a greater yield with less water?',
     pos:'right'
   }
 ]
