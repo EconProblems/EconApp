@@ -18,12 +18,18 @@ const userGet = async (req, res) => {
 const userCreate = async (req, res) => {
   const userInfo = req.body;
   try {
-    await userCreateInDB(userInfo);
-    res.cookie('authToken', 'your-auth-token', { maxAge: 86400000 }); // Set the cookie with a 24-hour expiration time (86400000 milliseconds)
-    res.sendStatus(204);
+    const newUser = await userCreateInDB(userInfo);
+    res.cookie('authToken', 'your-auth-token', { maxAge: 86400000 });
+    res.json(newUser);
   } catch (err) {
     console.error('error from user create ', err);
-    res.status(500).json({ message: 'Failed to find user' });
+    if (err.message === 'Username already exists') {
+      res.status(409).json({ message: 'Username already exists' });
+    } else if (err.message === 'User with the same ID already exists') {
+      res.status(406).json({ message: 'User with the same ID already exists' });
+    } else {
+      res.status(500).json({ message: 'Internal server error' });
+    }
   }
 };
 
