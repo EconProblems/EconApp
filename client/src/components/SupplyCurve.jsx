@@ -9,6 +9,8 @@ import useSound from 'use-sound';
 import correct from '../../dist/sounds/correct.wav';
 import incorrect from '../../dist/sounds/incorrect.wav';
 import close from "../../dist/images/close_icon.png";
+import { Button } from '@mui/material';
+import theme from "../themes/default.jsx";
 
 export default function SupplyCurve (props) {
   const percent = 100 / supplyQuestions.supplyQuestions.length;
@@ -106,12 +108,10 @@ export default function SupplyCurve (props) {
         <p>{currentQuestion && currentQuestion.question}</p>
       </div>
       <form onSubmit={handleSubmit}>
-        <button style={{
-          position: "absolute",
-          bottom: "20px",
-          left: "0",
-        }}
-        type="submit">submit Answer</button>
+      <div style={{ position: "fixed", bottom: "20px", left: "50%", transform: "translateX(-50%)" }}>
+        <Button
+        type="submit">submit Answer</Button>
+        </div>
       </form>
       <div>
         <ProgressBar completed={prog} />
