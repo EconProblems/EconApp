@@ -155,86 +155,88 @@ export default function App() {
   };
 
   return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Container maxWidth="md">
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="100vh"
-            py={4}
-          >
-            <span>Currently in development</span>
-<Typography variant="h1" align="center" gutterBottom color="primary.main">
-             {!isUser && <span>Welcome to EconProblems</span>}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="md">
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+          py={4}
+        >
+          <span>Currently in development</span>
+          <Typography variant="h1" align="center" gutterBottom color="primary.main">
+            {!isUser && <span>Welcome to EconProblems</span>}
+          </Typography>
+          {!isUser && <img src="/images/Econ3.png" alt="logo" width="200px" />}
+          {!loggedIn && (
+            <Box my={4}>
+              <Typography variant="bodyText" align="center" gutterBottom>
+                Log in to your account
+              </Typography>
+              <Login
+                setIsUser={setIsUser}
+                setNoUserName={setNoUserName}
+                user={user}
+                setUser={setUser}
+                loggedIn={loggedIn}
+                setLoggedIn={setLoggedIn}
+                setUserProfileData={setUserProfileData}
+                setDisplayNewUser={setDisplayNewUser}
+              />
+            </Box>
+          )}
+          {noUserName && (
+            <Typography variant="bodyText" align="center" color="red">
+              No user attached to this account yet.
             </Typography>
-            {!isUser && <img src="/images/Econ3.png" alt="logo" width="200px" />}
-      {!loggedIn && (
-        <Box my={4}>
-  <Typography variant="bodyText" align="center" gutterBottom>
-    Log in to your account
-  </Typography>
-  <Login
-    setIsUser={setIsUser}
-    setNoUserName={setNoUserName}
-    user={user}
-    setUser={setUser}
-    loggedIn={loggedIn}
-    setLoggedIn={setLoggedIn}
-    setUserProfileData={setUserProfileData}
-    setDisplayNewUser={setDisplayNewUser}
-  />
-</Box>
-    )}
-{noUserName && (
-  <Typography variant="bodyText" align="center" color="red">
-    No user attached to this account yet.
-  </Typography>
-)}
-      {displayNewUser && (
-        <>
-<Box my={4}>
-  <Typography variant="bodyText" align="center" gutterBottom>
-    Create an account
-    </Typography>
-    <NewUser
-          setUserProfileData={setUserProfileData}
-          setIsUser={setIsUser}
-          setNoUserName={setNoUserName}
-          setUser={setUser}
-          user={user}
-          setLoggedIn={setLoggedIn}
-          loggedIn={loggedIn}
-          setDisplayNewUser={setDisplayNewUser}
-          displayNewUser={displayNewUser}
-          setIsUser={setIsUser}
-          loggedIn={loggedIn}
-          userProfileData={userProfileData}
-          setDisplayNewUser={setDisplayNewUser}
-          setUserProfileData={setUserProfileData}
-          setNoUserName={setNoUserName}
-        />
-</Box>
-        </>
-      )}
-      {!isUser && !displayNewUser && (
-        <>
-        <Button onClick={handleNewUserSubmit}>Create Account</Button>
-        </>
-      )}
-      {/* commented out below for dev */}
-      {isUser && loggedIn && (
-        <div>
-          <PermanentDrawerLeft />
-          {renderView()}
-          <span>hello {userProfileData.userName}</span>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      )}
-      </Box>
-    </Container>
-  </ThemeProvider>
+          )}
+          {displayNewUser && (
+            <Box my={4}>
+              <Typography variant="bodyText" align="center" gutterBottom>
+                Create an account
+              </Typography>
+              <NewUser
+                setUserProfileData={setUserProfileData}
+                setIsUser={setIsUser}
+                setNoUserName={setNoUserName}
+                setUser={setUser}
+                user={user}
+                setLoggedIn={setLoggedIn}
+                loggedIn={loggedIn}
+                setDisplayNewUser={setDisplayNewUser}
+                displayNewUser={displayNewUser}
+                setIsUser={setIsUser}
+                loggedIn={loggedIn}
+                userProfileData={userProfileData}
+                setDisplayNewUser={setDisplayNewUser}
+                setUserProfileData={setUserProfileData}
+                setNoUserName={setNoUserName}
+              />
+            </Box>
+          )}
+          {!isUser && !displayNewUser && (
+            <>
+              <Button onClick={handleNewUserSubmit}>Create Account</Button>
+            </>
+          )}
+          {/* Move the conditional rendering of permanentDrawerLeft and renderView */}
+          {isUser && loggedIn && (
+          <>
+            <div style={{ display: "flex" }}>
+              <PermanentDrawerLeft />
+              <div style={{ flex: 1 }}>
+                {renderView()}
+                <span>hello {userProfileData.userName}</span>
+                <button onClick={handleLogout}>Logout</button>
+              </div>
+            </div>
+          </>
+        )}
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
