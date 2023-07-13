@@ -47,7 +47,7 @@ app.get('/logout', (req, res) => {
 });
 
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NO_NV === 'production') {
 
   // const privateKey = fs.readFileSync("./server/server.key",'utf8')
   // const certificate = fs.readFileSync("./server/156ce794f5e68c57.crt",'utf8');
@@ -58,6 +58,12 @@ if (process.env.NODE_ENV === 'production') {
   const caBundle = process.env.BUNDLE
 
   var credentials = { key: privateKey, cert: certificate, ca: caBundle };
+
+  // const credentials = {
+  //   key: process.env.DEV_KEY,
+  //   cert: process.env.DEV_CERT
+  // };
+
 
   const httpsServer = https.createServer(credentials, app);
   httpsServer.on('error', (error) => {

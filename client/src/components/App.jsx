@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Typography } from "@mui/material";
+import Drawer from '@mui/material/Drawer';
+import { Button } from '@mui/material';
 import theme from "../themes/default.jsx";
 import ThemeExample from "./ThemeExample.jsx";
 import { CssBaseline, Box, Container } from "@mui/material/";
 import SupplyCurve from "./SupplyCurve.jsx";
 import SupplyCurve2 from "./SupplyCurve2.jsx";
 import SupplyCurve3 from "./SupplyCurve3.jsx";
+import PermanentDrawerLeft from "./Drawer.jsx";
+
 import FourOhFour from "./404.jsx";
 import GamePath from "./GamePath/GamePath.jsx";
 import Login from "./Login.jsx";
 import NewUser from "./NewUser.jsx";
 import axios from "axios";
+
 
 export default function App() {
   const [view, setView] = useState({ name: "App" });
@@ -62,17 +67,47 @@ export default function App() {
             {/* <GamePath /> */}
             <div>
               <form onSubmit={handleSupplyCurveSubmit}>
-                <button type="submit">Supply!</button>
+              <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    borderRadius: '20px',
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                  }}
+                >
+                  Supply!
+                </Button>
               </form>
             </div>
             <div>
               <form onSubmit={handleSupplyCurveSubmit2}>
-                <button type="submit">Supply2!</button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    borderRadius: '20px',
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                  }}
+                >
+                  Supply2!
+                </Button>
               </form>
             </div>
             <div>
               <form onSubmit={handleSupplyCurveSubmit3}>
-                <button type="submit">Supply3!</button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    borderRadius: '20px',
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                  }}
+                >
+                  Supply3!
+                </Button>
               </form>
             </div>
           </div>
@@ -120,26 +155,51 @@ export default function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Typography variant="h1">Welcome to EconProblems</Typography>
-      <img src="/images/Econ3.png" alt="logo" width="200px" />
-      {/* {!loggedIn && (
-        <Login
-          setIsUser={setIsUser}
-          setNoUserName={setNoUserName}
-          user={user}
-          setUser={setUser}
-          loggedIn={loggedIn}
-          setLoggedIn={setLoggedIn}
-        />
-      )} */}
-      {noUserName && (
-        <span style={{ color: "red" }}>
-          No user attached to this account yet.
-        </span>
-      )}
-      {/* {displayNewUser && (
-        <NewUser
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container maxWidth="md">
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            minHeight="100vh"
+            py={4}
+          >
+            <span>Currently in development</span>
+<Typography variant="h1" align="center" gutterBottom color="primary.main">
+             {!isUser && <span>Welcome to EconProblems</span>}
+            </Typography>
+            {!isUser && <img src="/images/Econ3.png" alt="logo" width="200px" />}
+      {!loggedIn && (
+        <Box my={4}>
+  <Typography variant="bodyText" align="center" gutterBottom>
+    Log in to your account
+  </Typography>
+  <Login
+    setIsUser={setIsUser}
+    setNoUserName={setNoUserName}
+    user={user}
+    setUser={setUser}
+    loggedIn={loggedIn}
+    setLoggedIn={setLoggedIn}
+    setUserProfileData={setUserProfileData}
+    setDisplayNewUser={setDisplayNewUser}
+  />
+</Box>
+    )}
+{noUserName && (
+  <Typography variant="bodyText" align="center" color="red">
+    No user attached to this account yet.
+  </Typography>
+)}
+      {displayNewUser && (
+        <>
+<Box my={4}>
+  <Typography variant="bodyText" align="center" gutterBottom>
+    Create an account
+    </Typography>
+    <NewUser
           setUserProfileData={setUserProfileData}
           setIsUser={setIsUser}
           setNoUserName={setNoUserName}
@@ -148,22 +208,33 @@ export default function App() {
           setLoggedIn={setLoggedIn}
           loggedIn={loggedIn}
           setDisplayNewUser={setDisplayNewUser}
+          displayNewUser={displayNewUser}
+          setIsUser={setIsUser}
+          loggedIn={loggedIn}
+          userProfileData={userProfileData}
+          setDisplayNewUser={setDisplayNewUser}
+          setUserProfileData={setUserProfileData}
+          setNoUserName={setNoUserName}
         />
-      )} */}
-      {/* {!isUser && !displayNewUser && (
-        <button onClick={handleNewUserSubmit}>Create Account</button>
-      )} */}
+</Box>
+        </>
+      )}
+      {!isUser && !displayNewUser && (
+        <>
+        <Button onClick={handleNewUserSubmit}>Create Account</Button>
+        </>
+      )}
       {/* commented out below for dev */}
-      {/* {isUser && loggedIn && (
+      {isUser && loggedIn && (
         <div>
+          <PermanentDrawerLeft />
           {renderView()}
+          <span>hello {userProfileData.userName}</span>
           <button onClick={handleLogout}>Logout</button>
         </div>
-      )} */}
-      <div>
-        {renderView()}
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-    </ThemeProvider>
+      )}
+      </Box>
+    </Container>
+  </ThemeProvider>
   );
 }

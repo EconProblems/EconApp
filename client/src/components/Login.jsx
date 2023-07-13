@@ -33,15 +33,22 @@ export default function Login(props) {
           const response = await axios.get(`/user/${doc._id}`);
           const data = response.data;
           console.log('client says ', response.data);
+          props.setUserProfileData(response.data);
           if(response.data._id){
             console.log('cleint is in!')
             props.setIsUser(true);
+            props.setNoUserName(false);
           } else {
+            console.log('hello')
             props.setNoUserName(true);
+            props.setLoggedIn(false);
+            alert('No user attached to this account yet.')
           }
 
         } catch (error) {
           console.error(error);
+          props.setNoUserName(true);
+
         }
       };
       checkUser();

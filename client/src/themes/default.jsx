@@ -116,12 +116,22 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          backgroundColor: "#000000",
-          color: "#e40066",
+          backgroundColor: "#e40066",
+          color: "#000000",
           "&:hover": {
             backgroundColor: "#345995",
           },
           textTransform: "none",
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#ffffff",
+        },
+        paper: {
+          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
         },
       },
     },
