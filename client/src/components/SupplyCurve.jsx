@@ -12,6 +12,8 @@ import close from "../../dist/images/close_icon.png";
 import { Button } from '@mui/material';
 import theme from "../themes/default.jsx";
 
+
+
 export default function SupplyCurve (props) {
   const percent = 100 / supplyQuestions.supplyQuestions.length;
   const [questions, setQuestions] = useState(supplyQuestions.supplyQuestions);

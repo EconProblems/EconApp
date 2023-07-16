@@ -3,11 +3,9 @@ import close from "../../dist/images/close_icon.png";
 import Login from "./Login.jsx";
 import axios from "axios";
 import { createTheme } from '@mui/material/styles';
-import { Typography } from '@mui/material'; // Import Typography directly from '@mui/material'
+import { Typography,Button, Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
-import { Button, Box } from '@mui/material';
+import { useTheme, styled } from '@mui/material/styles';
 import theme from '../themes/default.jsx';
 
 const style = {
@@ -43,7 +41,6 @@ export default function NewUser(props) {
         setUsername(value);
       }
     }
-
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -85,17 +82,6 @@ export default function NewUser(props) {
             console.log(response.data)
             props.setUserProfileData(response.data);
             props.setNoUserName(false);
-            // console.log('user profile data', props.userProfileData);
-            // const response = await axios.get(`/user/${doc._id}`);
-            // const data = response.data;
-            // console.log('client says ', response.data);
-            // if(response.data._id){
-            //   props.setIsUser(true);
-            //   //set userdata
-            //   props.setUserProfileData(response.data)
-            // } else {
-            //   props.setNoUserName(true);
-            // }
           })
           .catch(function (error) {
             console.log(error)
@@ -197,10 +183,10 @@ export default function NewUser(props) {
             boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
             textAlign: 'center',
             position: 'relative',
-            display: 'flex', // Add this line to enable vertical stacking
-            flexDirection: 'column', // Add this line to enable vertical stacking
-            justifyContent: 'center', // Add this line to vertically center the content
-            alignItems: 'center', // Add this line to horizontally center the content
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <img
@@ -259,7 +245,7 @@ export default function NewUser(props) {
               color: theme.palette.primary.contrastText,
             }}
             sx={{
-              marginTop: theme.spacing(2), // Add spacing to the top of the button
+              marginTop: theme.spacing(2),
             }}
           >
             Submit

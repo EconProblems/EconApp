@@ -17,7 +17,8 @@ let userCheck = async (user) => {
     }
   } catch (err) {
     console.error(err);
-    throw err; // Rethrow the error to be caught in the calling function
+    // Rethrow the error to be caught in the calling function
+    throw err;
   }
 };
 

@@ -27,6 +27,8 @@ export default function Login(props) {
       props.setUser(doc);
       props.setLoggedIn(true);
       console.log('here is doc ', doc);
+      props.setProfilePic(doc.image);
+      console.log('profile pic in login', doc.image)
       // check DB to see if user exists
       const checkUser = async () => {
         try {
