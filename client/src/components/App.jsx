@@ -25,6 +25,7 @@ export default function App() {
   const [displayNewUser, setDisplayNewUser] = useState(false);
   const [noUserName, setNoUserName] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
+  const [isSupplyModalOpen, setIsSupplyModalOpen] = useState(false); // Modal open state
 
   const AppButton = ({ onClick, label }) => (
     <div style={{ justifyContent: 'center', textAlign: 'center' }}>
@@ -86,12 +87,15 @@ export default function App() {
 
   const changeView = (name) => {
     setView({ name });
+    if (name === "SupplyCurve") {
+      setIsSupplyModalOpen(true);
+    }
   };
 
   const renderView = () => {
     switch (view.name) {
       case "SupplyCurve":
-        return <SupplyCurve changeView={changeView} />;
+        return <SupplyCurve changeView={changeView} setIsSupplyModalOpen={setIsSupplyModalOpen} isSupplyModalOpen={isSupplyModalOpen}/>;
       case "SupplyCurve2":
         return <SupplyCurve2 changeView={changeView} />;
       case "SupplyCurve3":
@@ -186,6 +190,8 @@ export default function App() {
           }}
         >
           <span>Currently in development</span>
+          <span>supply2 & supply3 need refactorting to modal and styling</span>
+
           <Typography variant="h1" align="center" gutterBottom color="primary.main">
             {!isUser && <span>Welcome to EconProblems</span>}
           </Typography>
@@ -216,7 +222,7 @@ export default function App() {
             </>
           )}
           <Typography variant="h1" align="center" gutterBottom color="primary.dark">
-            {isUser && loggedIn && <span>hello {userProfileData.userName}</span>}
+            {isUser && loggedIn && <span>Hello {userProfileData.userName}!</span>}
           </Typography>
           {displayNewUser && (
             <Box my={4}>

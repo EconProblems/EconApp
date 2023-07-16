@@ -19,11 +19,8 @@ const drawerWidth = 200;
 export default function PermanentDrawerLeft(props) {
   console.log('here is profile pic', props.profilePic)
   return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
       <CssBaseline />
       <Drawer
         sx={{
@@ -37,7 +34,7 @@ export default function PermanentDrawerLeft(props) {
         variant="permanent"
         anchor="left"
       >
-        <img src="/images/Econ3.png" alt="logo" />
+      <img src="/images/Econ3.png" alt="logo" style={{ transform: 'scale(1.5)' }} />
         <Divider />
         <List>
           <ListItem disablePadding>
