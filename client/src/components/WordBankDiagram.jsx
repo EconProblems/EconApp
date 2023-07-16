@@ -10,7 +10,7 @@ export default function WordBankDiagram(props) {
   useEffect(() => {
     setCurrentQuestion(props.currentQuestion);
     setXPos(100);
-    setSelectedAnswers([]); // Reset selectedAnswers state when currentQuestion changes
+    setSelectedAnswers([]);
   }, [currentQuestion]);
 
   const toggleAnswer = (answer) => {

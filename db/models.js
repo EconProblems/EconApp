@@ -15,6 +15,7 @@ let userSchema = new mongoose.Schema({
     unique: true
   },
   skills: {},
+  awards: {},
   friends: [],
   streak: {
     type: Number,

@@ -48,7 +48,8 @@ export default function SupplyCurve3(props) {
     const randomSetIndex = Math.floor(Math.random() * questions.length);
     setCurrentQuestion(questions[randomSetIndex]);
     console.log(currentQuestion);
-    if (questions[randomSetIndex].pos) { // Check if the current question has a 'pos' property
+    if (questions[randomSetIndex].pos) {
+      // Check if the current question has a 'pos' property
       setIsDiagram(true);
       setIsWordBank(false);
     } else {

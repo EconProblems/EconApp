@@ -16,9 +16,11 @@ import MailIcon from '@mui/icons-material/Mail';
 
 const drawerWidth = 200;
 
-export default function PermanentDrawerLeft() {
+export default function PermanentDrawerLeft(props) {
+  console.log('here is profile pic', props.profilePic)
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
       <CssBaseline />
       <Drawer
         sx={{
@@ -32,11 +34,12 @@ export default function PermanentDrawerLeft() {
         variant="permanent"
         anchor="left"
       >
-        <img src="/images/Econ3.png" alt="logo" />
+      <img src="/images/Econ3.png" alt="logo" style={{ transform: 'scale(1.5)' }} />
         <Divider />
         <List>
           <ListItem disablePadding>
             <ListItemButton>
+            <img src={props.profilePic} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
               <ListItemText primary="Profile" />
             </ListItemButton>
           </ListItem>
@@ -53,6 +56,17 @@ export default function PermanentDrawerLeft() {
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemText primary="Streak" />
+            </ListItemButton>
+          </ListItem>
+          <Divider />
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="Units and Lessons" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="About EconProblems" />
             </ListItemButton>
           </ListItem>
         </List>

@@ -90,10 +90,12 @@ export default function SupplyCurve2(props) {
 
   const submitAnswer = (e) => {
     e.preventDefault();
-    let curSelectedAnswers = [...selectedAnswers]; // Create a new array to avoid modifying the original state
+    // Create a new array to avoid modifying the original state
+    let curSelectedAnswers = [...selectedAnswers];
     curSelectedAnswers.sort();
 
-    let wordAns = [...currentQuestion.wordAns]; // Create a new array to avoid modifying the original state
+    // Create a new array to avoid modifying the original state
+    let wordAns = [...currentQuestion.wordAns];
     wordAns.sort();
 
     const wordAnsString = JSON.stringify(wordAns);
