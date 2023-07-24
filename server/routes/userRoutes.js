@@ -1,6 +1,7 @@
 const express = require('express');
 const {userCheck} = require('../../db/index.js');
 const {userCreateInDB} = require('../../db/index.js');
+const {updateUserSkills} =require('../../db/index.js');
 
 const userGet = async (req, res) => {
   const { userId } = req.params;
@@ -33,6 +34,24 @@ const userCreate = async (req, res) => {
   }
 };
 
+const updateSkills = async (req, res) => {
+  const { userId } = req.params;
+  const userInfo = req.body;
+
+  console.log("passed to update skills: userId", req.params,"userInfo", req.body)
+  try {
+    // Pass userId as an argument to updateUserSkills function
+    const skillsUpdate = await updateUserSkills(userId, userInfo);
+    res.json(skillsUpdate);
+  } catch (err) {
+    console.error('error from user updateSkills ', err);
+    if (err.message) {
+      console.log(err.message)
+      res.status(409).json({ err });
+    }
+  }
+};
+
 module.exports = {
-  userGet, userCreate
+  userGet, userCreate, updateSkills
 };

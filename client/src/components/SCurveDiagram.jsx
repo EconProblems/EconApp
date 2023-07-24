@@ -30,30 +30,21 @@ export default function SCurveDiagram(props) {
 
   return (
     <div style={{ position: "relative" }}>
-      <div>
-        <img
-          src={diagram}
-          style={{ position: "relative", zIndex: "1" }}
-          alt="Diagram"
-        />
-        <Draggable axis="x" onDrag={handleDrag} position={{ x: xPos, y: 0 }}>
-          <img
-            src={SCurve}
-            style={{ position: "absolute", zIndex: "2", top: "0", left: "0" }}
-            alt="SCurve"
-          />
+      <p>{currentQuestion && currentQuestion.question}</p>
+      <span style={{ fontSize: "12px", color: "#E40066" }}>drag the curve left or right to answer the question</span>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <img src={diagram} style={{ position: "absolute", zIndex: "1", top: "+30px" }} alt="diagram" />
+        <Draggable axis="x" onDrag={handleDrag} position={{ x: xPos - 50, y: 0 }}>
+          <img src={SCurve} style={{ position: "absolute", zIndex: "2", top: "+80px" }} alt="s-curve" />
         </Draggable>
-      </div>
-      <div style={{ marginTop: "20px" }}>
-        <p>{currentQuestion && currentQuestion.question}</p>
-      </div>
-      <form onSubmit={props.handleDiagramSubmit}>
-        <div style={{ position: "fixed", bottom: "20px", left: "50%", transform: "translateX(-50%)" }}>
+        <form onSubmit={props.handleDiagramSubmit}>
+        <div style={{ position: "fixed", bottom: "20%", left: "50%", transform: "translateX(-50%)" }}>
           <Button type="submit" variant="contained" color="primary">
             Submit Answer
           </Button>
         </div>
       </form>
+      </div>
     </div>
   );
 }

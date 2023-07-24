@@ -25,32 +25,65 @@ export default function App() {
   const [displayNewUser, setDisplayNewUser] = useState(false);
   const [noUserName, setNoUserName] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
-  const [isSupplyModalOpen, setIsSupplyModalOpen] = useState(false); // Modal open state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClickable, setIsClickable] = useState({
+    supply1: true,
+    supply2: false,
+    supply3: false,
+  });
 
-  const AppButton = ({ onClick, label }) => (
-    <div style={{ justifyContent: 'center', textAlign: 'center' }}>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        sx={{
-          borderRadius: '30px',
-          boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-          width: '200px',
-          height: '60px',
-          marginBottom: '40px',
-          textTransform: 'none',
-          fontSize: '1em',
-          fontWeight: 'bold',
-          color: '#363636'
-        }}
-        onClick={onClick}
-      >
-        {label}
-      </Button>
+  useEffect(() => {
+    const skills = userProfileData?.skills || {};
 
-    </div>
-  );
+    const isClickableValues = {
+      supply1: true,
+      supply2: skills.supply2,
+      supply3: skills.supply3,
+    };
+    setIsClickable(isClickableValues);
+    console.log(isClickable);
+  }, [userProfileData]);
+
+  const AppButton = ({ onClick, label, isClickable, disabled }) => {
+    // Determine the color based on the isClickable prop
+    const buttonColor = isClickable
+      ? theme.palette.secondary.main
+      : theme.palette.secondary.dark;
+
+      const handleClick = (e) => {
+        if (!e.target.disabled) {
+          alert("This button is disabled and cannot be clicked.");
+        } else {
+          onClick();
+        }
+      };
+
+    return (
+      <div style={{ justifyContent: "center", textAlign: "center" }}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{
+            borderRadius: "30px",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+            width: "200px",
+            height: "60px",
+            marginBottom: "40px",
+            textTransform: "none",
+            fontSize: "1em",
+            fontWeight: "bold",
+            color: "#363636",
+            backgroundColor: buttonColor, // Use the dynamic color here
+          }}
+          onClick={onClick}
+          disabled={!isClickable}
+        >
+          {label}
+        </Button>
+      </div>
+    );
+  };
 
 
   useEffect(() => {
@@ -87,43 +120,46 @@ export default function App() {
 
   const changeView = (name) => {
     setView({ name });
-    if (name === "SupplyCurve") {
-      setIsSupplyModalOpen(true);
-    }
+      setIsModalOpen(true);
   };
 
   const renderView = () => {
     switch (view.name) {
       case "SupplyCurve":
-        return <SupplyCurve changeView={changeView} setIsSupplyModalOpen={setIsSupplyModalOpen} isSupplyModalOpen={isSupplyModalOpen}/>;
+        return <SupplyCurve changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}/>;
       case "SupplyCurve2":
-        return <SupplyCurve2 changeView={changeView} />;
+        return <SupplyCurve2 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}/>;
       case "SupplyCurve3":
-        return <SupplyCurve3 changeView={changeView} />;
+        return <SupplyCurve3 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />;
       case "theme":
         return <ThemeExample />;
       case "App":
         return (
-          <div >
+          <div>
             <div>
-              {/* <GamePath /> */}
-              <div>
-                <form onSubmit={handleSupplyCurveSubmit}>
-                  <AppButton label="Supply 1" />
-                </form>
-              </div>
-              <div>
-                <form onSubmit={handleSupplyCurveSubmit2}>
-                  <AppButton label="Supply 2" />
-                </form>
-              </div>
-              <div>
-                <form onSubmit={handleSupplyCurveSubmit3}>
-                  <AppButton label="Supply 3" />
-                </form>
-              </div>
+              <span>Complete the lessons in <span style={{ color: theme.palette.secondary.main }}>green</span> to progress</span>
+              <br />
             </div>
-          </div>
+            <br />
+          <form onSubmit={handleSupplyCurveSubmit}>
+            <AppButton
+              label="Supply 1"
+              isClickable={isClickable.supply1}
+            />
+          </form>
+          <form onSubmit={handleSupplyCurveSubmit2}>
+            <AppButton
+              label="Supply 2"
+              isClickable={isClickable.supply2}
+            />
+          </form>
+          <form onSubmit={handleSupplyCurveSubmit3}>
+            <AppButton
+              label="Supply 3"
+              isClickable={isClickable.supply3}
+            />
+          </form>
+        </div>
         );
       default:
         return <FourOhFour />;
@@ -132,18 +168,25 @@ export default function App() {
 
   const handleSupplyCurveSubmit = (e) => {
     e.preventDefault();
-    changeView("SupplyCurve");
+    if (isClickable.supply1) {
+      changeView("SupplyCurve");
+    }
   };
 
   const handleSupplyCurveSubmit2 = (e) => {
     e.preventDefault();
-    changeView("SupplyCurve2");
+    if (isClickable.supply2) {
+      changeView("SupplyCurve2");
+    }
   };
 
   const handleSupplyCurveSubmit3 = (e) => {
     e.preventDefault();
-    changeView("SupplyCurve3");
+    if (isClickable.supply3) {
+      changeView("SupplyCurve3");
+    }
   };
+
 
   const handleNewUserSubmit = () => {
     console.log("clicked button");
@@ -189,9 +232,7 @@ export default function App() {
             textAlign: 'center' // Add this property to center the buttons
           }}
         >
-          <span>Currently in development</span>
-          <span>supply2 & supply3 need refactorting to modal and styling</span>
-
+          <span style={{color: "red"}}>Currently in development</span>
           <Typography variant="h1" align="center" gutterBottom color="primary.main">
             {!isUser && <span>Welcome to EconProblems</span>}
           </Typography>
@@ -245,6 +286,7 @@ export default function App() {
                 setDisplayNewUser={setDisplayNewUser}
                 setUserProfileData={setUserProfileData}
                 setNoUserName={setNoUserName}
+                setProfilePic={setProfilePic}
               />
             </Box>
           )}

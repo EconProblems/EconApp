@@ -13,6 +13,7 @@ import theme from "../themes/default.jsx";
 import Modal from '@mui/material/Modal';
 import { Typography, Button, Box } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
+import axios from 'axios';
 
 export default function SupplyCurve(props) {
   const percent = 100 / supplyQuestions.supplyQuestions.length;
@@ -41,7 +42,25 @@ export default function SupplyCurve(props) {
     });
 
     if (questions.length === 0) {
-      alert("You've completed the lesson. The devs need to change the view");
+      alert("You've completed the lesson!");
+      // send db put
+      const updatedSkills = {
+        skills: {
+          supply2: true
+        },
+        id: props.userProfileData._id
+      };
+      console.log(updatedSkills)
+
+      console.log('here is updated userProfileData', updatedSkills)
+      axios.put(`/user/${props.userProfileData.id}`, { data: updatedSkills })
+      .then((response) => {
+        console.log('Skills updated successfully:', response.data);
+        props.setUserProfileData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error updating skills:', error);
+      });
       props.changeView('App');
       handleClose();
     }
@@ -55,7 +74,7 @@ export default function SupplyCurve(props) {
 
     if (coins.length === 0) {
       alert("You have run out of coins");
-      props.setIsSupplyModalOpen(false);
+      props.setIsModalOpen(false);
       props.changeView('App');
     }
 
@@ -102,12 +121,12 @@ export default function SupplyCurve(props) {
   };
 
   const handleClose = () => {
-    props.setIsSupplyModalOpen(false);
+    props.setIsModalOpen(false);
     props.changeView('App');
   };
 
   const handleOpen = () => {
-    props.setIsSupplyModalOpen(true);
+    props.setIsModalOpen(true);
   };
 
   const progressBarStyle = {
@@ -120,7 +139,7 @@ export default function SupplyCurve(props) {
 
   return (
     <Modal
-      open={props.isSupplyModalOpen}
+      open={props.isModalOpen}
       onClose={handleClose}
       style={{
         display: 'flex',

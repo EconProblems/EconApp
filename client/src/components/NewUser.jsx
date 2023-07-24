@@ -157,6 +157,8 @@ export default function NewUser(props) {
             setIsUser={props.setIsUser}
             setDisplayNewUser={props.setDisplayNewUser}
             setUserProfileData={props.setUserProfileData}
+            setProfilePic={props.setProfilePic}
+
           />
         </Box>
       </Modal>
