@@ -8,7 +8,9 @@ import useSound from 'use-sound';
 import ProgressBar from "react-progressbar";
 import WordBankDiagram from "./WordBankDiagram.jsx";
 import {supplyQuestions3} from "../../../DummyData/dummyData.js";
-
+import Modal from '@mui/material/Modal';
+import { Typography, Button, Box } from '@mui/material';
+import { useTheme, styled } from '@mui/material/styles';
 
 
 export default function SupplyCurve3(props) {
@@ -60,9 +62,20 @@ export default function SupplyCurve3(props) {
   };
 
   const handleClose = () => {
+    props.setIsModalOpen(false);
     props.changeView('App');
   };
 
+  const handleOpen = () => {
+    props.setIsModalOpen(true);
+  };
+
+  const progressBarStyle = {
+    color: "#03cea4",
+    backgroundColor: "white",
+    borderRadius: "5px",
+    border: "solid"
+  };
 
   const setNextQuestion = () => {
     console.log('triggered')
@@ -109,9 +122,52 @@ export default function SupplyCurve3(props) {
   };
 
   return (
-    <div>
-      <img src={close} alt="close" onClick={handleClose} />
-      <div>{coins.map((coin, i)=><img src={coin} key={i}></img>)}</div>
+    <Modal
+      open={props.isModalOpen}
+      onClose={handleClose}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#ffffff',
+          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+          textAlign: 'center',
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div
+        style={{
+          width: '95%',
+          height: '95%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+        }}>
+        <div style={{ position: "absolute", top: 0, left: 0, zIndex: "3" }}>
+          <img src={close} alt="close" onClick={handleClose} />
+        </div>
+        <div style={{ position: "fixed", top: "20px", left: "50px", width: "95%", zIndex: "3" }}>
+            {prog > 0 ? (
+              <ProgressBar completed={prog} style={progressBarStyle} />
+            ) : (
+              <div style={{ width: "100%", height: "10px", border: "1px solid #ccc" }} />
+            )}
+                    <div style={{ left: "20px", display: "flex", zIndex: "3" }}>
+          {coins.map((coin, i) => (
+            <img src={coin} key={i} alt={`coin-${i}`} style={{ marginLeft: "5px", width: "50px" }} />
+          ))}
+          </div>
+          {/* </div> */}
       {isDiagram && (
         <SCurveDiagram
           currentQuestion={currentQuestion}
@@ -129,8 +185,11 @@ export default function SupplyCurve3(props) {
           setProg={setProg}
         />
       )}
-      <ProgressBar completed={prog} />
+                </div>
+
     </div>
+    </Box>
+    </Modal>
   )
 };
 

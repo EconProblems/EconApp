@@ -59,7 +59,36 @@ let userCreateInDB = async (user) => {
   }
 };
 
+
+async function updateUserSkills(userId, userInfo) {
+  console.log('here is db with user info', userInfo)
+  try {
+    // Find the user by userId
+    const user = await Users.findOne({ id: userId }).exec();
+
+    console.log('FOUND USER', user)
+    if (!user) {
+      console.log('User not found');
+      return null;
+    }
+
+    // Update the skills object with the new key-value pair
+    user.skills = { ...userInfo.data.skills };
+
+    // Save the updated user document
+    await user.save();
+
+    console.log('User skills updated:', user);
+    return user;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+
 module.exports = {
   userCheck,
-  userCreateInDB
+  userCreateInDB,
+  updateUserSkills
 };

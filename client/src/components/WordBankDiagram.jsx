@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
+import { Typography, Box } from '@mui/material';
+import { useTheme, styled } from '@mui/material/styles';
+import { Button } from '@mui/material';
 
 export default function WordBankDiagram(props) {
   const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
   const [xPos, setXPos] = useState(100);
   const [curPos, setCurPos] = useState("");
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+
+
+  const theme = useTheme();
+
 
   useEffect(() => {
     setCurrentQuestion(props.currentQuestion);
@@ -65,8 +72,8 @@ export default function WordBankDiagram(props) {
   return (
     <div>
       {currentQuestion && (
-        <div>
-          <h3>Question: {currentQuestion.question}</h3>
+        <div style={{ position: "relative"}}>
+        <h3>Question: {currentQuestion.question}</h3>
           <div style={{ marginBottom: "20px" }}>
             {currentQuestion.wordBank.map((answer, index) => (
               <button
@@ -74,16 +81,22 @@ export default function WordBankDiagram(props) {
                 onClick={() => toggleAnswer(answer)}
                 style={{
                   margin: "5px",
-                  background: selectedAnswers.includes(answer)
-                    ? "lightblue"
-                    : "white",
+                  background: selectedAnswers.includes(answer) ? theme.palette.secondary.main : theme.palette.background.default,
+                  color: selectedAnswers.includes(answer) ? theme.palette.text.primary : theme.palette.primary.main,
+                  padding: "8px 16px",
+                  borderRadius: "5px",
+                  border: "1px solid",
+                  borderColor: theme.palette.secondary.main,
+                  cursor: "pointer",
                 }}
               >
                 {answer}
               </button>
             ))}
           </div>
-          <button onClick={submitWordAnswer}>Submit</button>
+          <div style={{ marginTop: "auto", marginBottom: "50px" }}>
+            <Button onClick={submitWordAnswer}>Submit</Button>
+          </div>
         </div>
       )}
     </div>
