@@ -11,7 +11,7 @@ import {supplyQuestions3} from "../../../DummyData/dummyData.js";
 import Modal from '@mui/material/Modal';
 import { Typography, Button, Box } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
-
+import axios from 'axios';
 
 export default function SupplyCurve3(props) {
   const percent = 100 / supplyQuestions3.questions.length;
@@ -89,6 +89,26 @@ export default function SupplyCurve3(props) {
     });
 
     if (questions.length === 0) {
+
+      const updatedSkills = {
+        skills: {
+          supply2: true,
+          supply3: true,
+          demand1: true,
+        },
+        id: props.userProfileData._id
+      };
+      console.log(updatedSkills)
+
+      console.log('here is updated userProfileData', updatedSkills)
+      axios.put(`/user/${props.userProfileData.id}`, { data: updatedSkills })
+      .then((response) => {
+        console.log('Skills updated successfully:', response.data);
+        props.setUserProfileData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error updating skills:', error);
+      });
       alert("You've completed the lesson. The devs need to change the view");
       props.changeView('App');
     }

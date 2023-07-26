@@ -26,11 +26,39 @@ export default function App() {
   const [noUserName, setNoUserName] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStreakActive, setIsStreakActive] = useState(false);
   const [isClickable, setIsClickable] = useState({
     supply1: true,
     supply2: false,
     supply3: false,
   });
+
+
+  const calculateDailyStreak = (lastLessonCompletion) => {
+    const today = new Date();
+    const lastCompletionDate = new Date(lastLessonCompletion);
+
+    // Check if the last lesson completion date is today
+    const isToday = today.toDateString() === lastCompletionDate.toDateString();
+
+    // Return a streak of 1 if it's today, 0 otherwise
+    return isToday ? 1 : 0;
+  }
+
+  useEffect(() => {
+    // Check the daily streak status when the user logs in or accesses a lesson
+    if (userProfileData.lastLessonCompletion) {
+      const streak = calculateDailyStreak(userProfileData.lastLessonCompletion);
+      if (streak === 1) {
+        // User completed a lesson today
+        setIsStreakActive(true);
+      } else {
+        // User didn't complete a lesson today, streak broken
+        setIsStreakActive(false);
+      }
+    }
+  }, [userProfileData]);
+
 
   useEffect(() => {
     const skills = userProfileData?.skills || {};
@@ -296,14 +324,13 @@ export default function App() {
           )}
           {isUser && loggedIn && (
             <>
-              <button onClick={handleLogout}>Logout</button>
               <button onClick={handleThemeExample}>Theme Example</button>
               <div style={{ height: '75vh' }}>
               <br />
               <div style={{ overflowY: 'auto', position: 'center' }}>
                   {renderView()}
               </div>
-                <PermanentDrawerLeft userProfileData={userProfileData} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
+                <PermanentDrawerLeft userProfileData={userProfileData} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
               </div>
             </>
           )}

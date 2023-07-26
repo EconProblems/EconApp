@@ -16,12 +16,23 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
+import supplyAward from "../../dist/SupplyAward.png";
+import Tooltip from '@mui/material/Tooltip';
 
-const drawerWidth = 200;
+const drawerWidth = 210;
 
 export default function PermanentDrawerLeft(props) {
   const [selectedLink, setSelectedLink] = React.useState(null);
   const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = React.useState(false);
+  const [streakValue, setStreakValue] = React.useState(props.userProfileData.streak);
+
+
+  React.useEffect(() => {
+    if (props.isStreakActive) {
+      let curVal = Math.max(streakValue, 1);
+      setStreakValue(curVal);
+    }
+  }, [props.isStreakActive]);
 
   const openDeleteAccountModal = () => {
     setIsDeleteAccountModalOpen(true);
@@ -67,6 +78,19 @@ export default function PermanentDrawerLeft(props) {
   };
 
   const renderInnerDrawer = () => {
+    let awardsImage = null;
+    if (selectedLink === 'Awards' && props.userProfileData.skills.demand1) {
+      awardsImage = (
+        <Tooltip title="You've mastered the basics of Supply!">
+        <img
+          src={supplyAward}
+          alt="Supply Award"
+          style={{ width: '70px', height: '70px', borderRadius: '8px' }}
+        />
+      </Tooltip>
+      );
+    }
+
     let innerDrawerContent;
     switch (selectedLink) {
       case 'Profile':
@@ -85,7 +109,16 @@ export default function PermanentDrawerLeft(props) {
         </div>
         break;
       case 'Awards':
-        innerDrawerContent = <div>Awards Drawer Content</div>;
+        innerDrawerContent = (
+        <div>
+          <br />
+          <span>&nbsp; &nbsp; Awards</span>
+          <br />
+          <br />
+
+          {<span>&nbsp; &nbsp;</span>}{awardsImage}
+        </div>
+      );
         break;
       case 'Skills':
         innerDrawerContent = <div>Skills Drawer Content</div>;
@@ -191,7 +224,11 @@ export default function PermanentDrawerLeft(props) {
         variant="permanent"
         anchor="left"
       >
-        <img src="/images/Econ3.png" alt="logo" style={{ transform: 'scale(1.5)' }} />
+        <img src="/images/Econ3.png"
+          alt="SupplyAward"
+          style={{ transform: 'scale(1.5)' }}
+          title="You've mastered the basics of Supply!"
+        />
         <Divider />
         <List>
           <ListItem disablePadding>
@@ -205,9 +242,7 @@ export default function PermanentDrawerLeft(props) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => handleLinkClick('Streak')}>
-              <ListItemText primary="Streak" />
-            </ListItemButton>
+            <Typography variant="body1"> &nbsp; &nbsp;Current Streak: {streakValue} day</Typography>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleLinkClick('Awards')}>

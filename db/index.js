@@ -61,12 +61,8 @@ let userCreateInDB = async (user) => {
 
 
 async function updateUserSkills(userId, userInfo) {
-  console.log('here is db with user info', userInfo)
   try {
-    // Find the user by userId
     const user = await Users.findOne({ id: userId }).exec();
-
-    console.log('FOUND USER', user)
     if (!user) {
       console.log('User not found');
       return user;
@@ -75,10 +71,13 @@ async function updateUserSkills(userId, userInfo) {
     // Update the skills object with the new key-value pair
     user.skills = { ...userInfo.data.skills };
 
+    // Update the last lesson completion date to the current date
+    user.lastLessonCompletion = new Date();
+
     // Save the updated user document
     await user.save();
 
-    console.log('User skills updated:', user);
+    console.log('User skills and last lesson completion updated:', user);
     return user;
   } catch (err) {
     console.error(err);
@@ -96,6 +95,7 @@ const deleteUserAccount = async (req, res) => {
     res.status(500).json({ message: 'Failed to delete user account' });
   }
 };
+
 
 module.exports = {
   userCheck,
