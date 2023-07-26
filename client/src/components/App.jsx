@@ -302,7 +302,7 @@ export default function App() {
               <div style={{ overflowY: 'auto', position: 'center' }}>
                   {renderView()}
               </div>
-                <PermanentDrawerLeft userProfileData={userProfileData} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
+                <PermanentDrawerLeft userProfileData={userProfileData} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
               </div>
             </>
           )}

@@ -5,7 +5,7 @@ const https = require('https');
 const fs = require('fs');
 const mongoose = require("mongoose");
 require('dotenv').config();
-const { userGet, userCreate, updateSkills } = require("./routes/userRoutes.js");
+const { userGet, userCreate, updateSkills, deleteUserAccountRoute } = require("./routes/userRoutes.js");
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
@@ -37,6 +37,9 @@ app.use(express.static(DIST_DIR));
 app.get('/user/:userId', userGet);
 app.post('/user/', userCreate);
 app.put('/user/:userId', updateSkills);
+app.delete('/user/:userId', deleteUserAccountRoute);
+
+
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {

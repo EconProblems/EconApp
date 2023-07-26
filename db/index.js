@@ -86,9 +86,20 @@ async function updateUserSkills(userId, userInfo) {
   }
 }
 
+const deleteUserAccount = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    await Users.deleteOne({ id: userId }).exec();
+    res.status(200).json({ message: 'User account deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to delete user account' });
+  }
+};
 
 module.exports = {
   userCheck,
   userCreateInDB,
-  updateUserSkills
+  updateUserSkills,
+  deleteUserAccount
 };

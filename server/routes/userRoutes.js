@@ -1,7 +1,8 @@
 const express = require('express');
 const {userCheck} = require('../../db/index.js');
 const {userCreateInDB} = require('../../db/index.js');
-const {updateUserSkills} =require('../../db/index.js');
+const {updateUserSkills} = require('../../db/index.js');
+const {deleteUserAccount} = require('../../db/index.js');
 
 const userGet = async (req, res) => {
   const { userId } = req.params;
@@ -52,6 +53,17 @@ const updateSkills = async (req, res) => {
   }
 };
 
+const deleteUserAccountRoute = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    await deleteUserAccount(req, res); // Calling the deleteUserAccount function from the db module
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to delete user account' });
+  }
+};
+
 module.exports = {
-  userGet, userCreate, updateSkills
+  userGet, userCreate, updateSkills, deleteUserAccountRoute
+
 };
