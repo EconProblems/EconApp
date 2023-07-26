@@ -208,6 +208,12 @@ export default function NewUser(props) {
             Are you ready to set up your new account? Let's do it!
           </Typography>
           <br /><br />
+          {props.noUserName && (
+            <Typography variant="bodyText" align="center" color="red">
+              No user attached to this account yet.
+            </Typography>
+          )}
+          <br />
           <form>
             <div>
               <label htmlFor="username">

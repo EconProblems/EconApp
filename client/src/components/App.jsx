@@ -286,6 +286,7 @@ export default function App() {
                 setDisplayNewUser={setDisplayNewUser}
                 setUserProfileData={setUserProfileData}
                 setNoUserName={setNoUserName}
+                noUserName={noUserName}
                 setProfilePic={setProfilePic}
               />
             </Box>

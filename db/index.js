@@ -69,7 +69,7 @@ async function updateUserSkills(userId, userInfo) {
     console.log('FOUND USER', user)
     if (!user) {
       console.log('User not found');
-      return null;
+      return user;
     }
 
     // Update the skills object with the new key-value pair

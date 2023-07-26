@@ -15,11 +15,21 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 
 const drawerWidth = 200;
 
 export default function PermanentDrawerLeft(props) {
   const [selectedLink, setSelectedLink] = React.useState(null);
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = React.useState(false);
+
+  const openDeleteAccountModal = () => {
+    setIsDeleteAccountModalOpen(true);
+  };
+
+  const closeDeleteAccountModal = () => {
+    setIsDeleteAccountModalOpen(false);
+  };
 
   const handleLinkClick = (link) => {
     setSelectedLink(selectedLink === link ? null : link);
@@ -27,6 +37,10 @@ export default function PermanentDrawerLeft(props) {
 
   const handleCloseClick = () => {
     setSelectedLink(null);
+  };
+
+  const handleDeleteButton = () => {
+    openDeleteAccountModal();
   };
 
   const handleDeleteAccount = () => {
@@ -64,7 +78,7 @@ export default function PermanentDrawerLeft(props) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={handleDeleteAccount}>
+            <ListItemButton onClick={handleDeleteButton}>
               <ListItemText primary="Delete Account" />
             </ListItemButton>
           </ListItem>
@@ -97,6 +111,17 @@ export default function PermanentDrawerLeft(props) {
       width: drawerWidth,
     };
 
+    const modalStyle = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      bgcolor: 'background.paper',
+      boxShadow: 24,
+      p: 4,
+    };
+
     return (
       <animated.div style={slideIn}>
         <Drawer
@@ -109,17 +134,42 @@ export default function PermanentDrawerLeft(props) {
             },
           }}
         >
-        <div style={innerDrawerStyle}>
-          {innerDrawerContent}
-          {selectedLink && (
-            <List>
-              <ListItem disablePadding>
-                <ListItemButton onClick={handleCloseClick}>
-                  <ListItemText primary="Close" />
-                </ListItemButton>
-              </ListItem>
-            </List>
-          )}
+          <div style={innerDrawerStyle}>
+            {innerDrawerContent}
+            {selectedLink && (
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={handleCloseClick}>
+                    <ListItemText primary="Close" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            )}
+
+            {/* Modal Confirmation Dialog */}
+            <Modal
+              open={isDeleteAccountModalOpen}
+              onClose={closeDeleteAccountModal}
+              aria-labelledby="delete-account-modal-title"
+              aria-describedby="delete-account-modal-description"
+            >
+              <Box sx={{ ...modalStyle }}>
+                <Typography variant="h6" component="h2" id="delete-account-modal-title">
+                  Confirm Account Deletion
+                </Typography>
+                <Typography sx={{ mt: 2 }} id="delete-account-modal-description">
+                  Are you sure you want to delete your account? This action cannot be undone.
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+                  <Button onClick={closeDeleteAccountModal} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleDeleteAccount} color="error" variant="contained" sx={{ ml: 2 }}>
+                    Confirm Delete Account
+                  </Button>
+                </Box>
+              </Box>
+            </Modal>
           </div>
         </Drawer>
       </animated.div>

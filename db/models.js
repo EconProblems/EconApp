@@ -14,6 +14,10 @@ let userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  lastLessonCompletion: {
+    type: Date,
+    default: null,
+  },
   skills: {},
   awards: {},
   friends: [],

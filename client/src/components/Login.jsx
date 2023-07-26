@@ -36,11 +36,12 @@ export default function Login(props) {
           const data = response.data;
           console.log('client says ', response.data);
           props.setUserProfileData(response.data);
-          if(response.data._id){
+          if (response.data._id){
             console.log('cleint is in!')
             props.setIsUser(true);
             props.setNoUserName(false);
-          } else {
+          }
+          if (response.data === 0){
             console.log('hello')
             props.setNoUserName(true);
             props.setLoggedIn(false);
