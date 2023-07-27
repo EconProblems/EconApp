@@ -88,7 +88,9 @@ export default function PermanentDrawerLeft(props) {
           style={{ width: '70px', height: '70px', borderRadius: '8px' }}
         />
       </Tooltip>
-      );
+      )
+    } else {
+      awardsImage = <span style={{ color: "red" }}>No Awards Yet</span>;
     }
 
     let innerDrawerContent;
@@ -242,7 +244,7 @@ export default function PermanentDrawerLeft(props) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <Typography variant="body1"> &nbsp; &nbsp;Current Streak: {streakValue} day</Typography>
+            <Typography variant="body1"> &nbsp; &nbsp;Current Streak: {streakValue} days</Typography>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleLinkClick('Awards')}>
