@@ -47,14 +47,16 @@ export default function App() {
 
   useEffect(() => {
     // Check the daily streak status when the user logs in or accesses a lesson
-    if (userProfileData.lastLessonCompletion) {
-      const streak = calculateDailyStreak(userProfileData.lastLessonCompletion);
-      if (streak === 1) {
-        // User completed a lesson today
-        setIsStreakActive(true);
-      } else {
-        // User didn't complete a lesson today, streak broken
-        setIsStreakActive(false);
+    if (isUser) {
+      if (userProfileData.lastLessonCompletion) {
+        const streak = calculateDailyStreak(userProfileData.lastLessonCompletion);
+        if (streak === 1) {
+          // User completed a lesson today
+          setIsStreakActive(true);
+        } else {
+          // User didn't complete a lesson today, streak broken
+          setIsStreakActive(false);
+        }
       }
     }
   }, [userProfileData]);

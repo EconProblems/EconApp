@@ -79,7 +79,7 @@ export default function PermanentDrawerLeft(props) {
 
   const renderInnerDrawer = () => {
     let awardsImage = null;
-    if (selectedLink === 'Awards' && props.userProfileData.skills.demand1) {
+    if (selectedLink === 'Awards' && props.userProfileData.skills?.demand1) {
       awardsImage = (
         <Tooltip title="You've mastered the basics of Supply!">
         <img
