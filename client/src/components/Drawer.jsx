@@ -252,7 +252,7 @@ export default function PermanentDrawerLeft(props) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => handleLinkClick('Friends')}>
+            <ListItemButton onClick={props.openFriendsModal}>
               <ListItemText primary="Friends" />
             </ListItemButton>
           </ListItem>

@@ -3,6 +3,9 @@ const {userCheck} = require('../../db/index.js');
 const {userCreateInDB} = require('../../db/index.js');
 const {updateUserSkills} = require('../../db/index.js');
 const {deleteUserAccount} = require('../../db/index.js');
+const { searchFriends } = require("../../db/index.js");
+const { sendFriendRequest } = require("../../db/index.js");
+const {sendAcceptFriendRequest} = require("../../db/index.js");
 
 const userGet = async (req, res) => {
   const { userId } = req.params;
@@ -63,7 +66,45 @@ const deleteUserAccountRoute = async (req, res) => {
   }
 };
 
-module.exports = {
-  userGet, userCreate, updateSkills, deleteUserAccountRoute
+const searchFriendsRoute = async (req, res) => {
+  const { query } = req.query;
 
+  try {
+    const friendResults = await searchFriends(query);
+    res.json(friendResults);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to search for friends' });
+  }
+};
+
+const sendFriendRequestRoute = async (req, res) => {
+  console.log("sendFriendRequestRoute triggered", req.body)
+  const { friendId, friendUserName , userId } = req.body;
+
+  try {
+    await sendFriendRequest(friendId, friendUserName, userId);
+
+    // Send a success response to the client
+    res.status(200).json({ message: 'Friend request sent successfully' });
+  } catch (error) {
+    console.error('Error sending friend request:', error);
+    res.status(500).json({ message: 'Failed to send friend request' });
+  }
+};
+
+const sendAcceptFriendRequestRoute = async (req, res) => {
+  const { friendId, userId } = req.body;
+
+  try {
+    await sendAcceptFriendRequest(friendId, userId);
+    res.status(200).json({ message: 'Accepted friend sent successfully' });
+  } catch (error) {
+    console.error('Error sending friend request:', error);
+    res.status(500).json({ message: 'Failed to accept friend request' });
+  }
+}
+
+module.exports = {
+  userGet, userCreate, updateSkills, deleteUserAccountRoute, searchFriendsRoute, sendFriendRequestRoute, sendAcceptFriendRequestRoute
 };

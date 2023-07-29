@@ -96,10 +96,128 @@ const deleteUserAccount = async (req, res) => {
   }
 };
 
+const searchFriends = async (query) => {
+  try {
+    // Perform a case-insensitive search by name or username
+    const friendResults = await Users.find({
+      userName: { $regex: new RegExp(query, 'i') },
+    }).exec();
+
+    return friendResults;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+const sendFriendRequest = async (friendId, friendUserName, userId) => {
+  try {
+    const user = await Users.findOne({ id: userId }).exec();
+    if (user) {
+      const existingFriend = user.friends.find((friend) => friend.id === friendId);
+      if (!existingFriend) {
+        user.friends.push({
+          id: friendId,
+          userName: friendUserName,
+          sentRequest: true,
+          receivedRequest: false,
+          isFriend: false,
+        });
+        await user.save();
+
+        const requestedFriend = await Users.findOne({ id: friendId }).exec();
+        const existingRequestedFriend = requestedFriend.friends.find((friend) => friend.id === userId);
+
+        if (!existingRequestedFriend) {
+          requestedFriend.friends.push({
+            id: userId,
+            userName: user.userName,
+            sentRequest: false,
+            receivedRequest: true,
+            isFriend: false,
+          });
+          await requestedFriend.save();
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error sending friend request:', error);
+    throw error;
+  }
+};
+
+const sendAcceptFriendRequest = async (friendId, userId) => {
+  try {
+    const user = await Users.findOne({ id: userId }).exec();
+    const friend = await Users.findOne({ id: friendId }).exec();
+
+    if (user && friend) {
+      // Check if the friend request exists in the user's friend list
+      const userFriendRequest = user.friends.find(
+        (friend) => friend.id === friendId && friend.receivedRequest === true
+      );
+
+      if (!userFriendRequest) {
+        console.log("Friend request not found in user's friend list");
+        throw new Error('Friend request not found');
+      }
+
+      // Delete the friend object from the user's friend array
+      const indexInUserFriendList = user.friends.findIndex(
+        (friend) => friend.id === friendId
+      );
+      if (indexInUserFriendList !== -1) {
+        user.friends.splice(indexInUserFriendList, 1);
+      }
+
+      // Add the friend request object to the user's friend array with isFriend set to true
+      user.friends.push({
+        id: userFriendRequest.id,
+        userName: userFriendRequest.userName,
+        sentRequest: false,
+        receivedRequest: false,
+        isFriend: true,
+      });
+
+      // Find the user in the friend's friend list
+      const friendInFriendList = friend.friends.find(
+        (friend) => friend.id === userId
+      );
+
+
+      // Delete the friend object from the requesting Friend's friend array
+      const indexInFriendFriendList = friend.friends.findIndex(
+        (requestedFriend) => requestedFriend.id === userId
+      );
+      if (indexInFriendFriendList !== -1) {
+        friend.friends.splice(indexInUserFriendList, 1);
+      }
+
+
+      friend.friends.push({
+        id: userId,
+        userName: user.userName,
+        sentRequest: false,
+        receivedRequest: false,
+        isFriend: true,
+      });
+
+
+      // Save the updated documents for both user and friend
+      await Promise.all([user.save(), friend.save()]);
+    }
+  } catch (error) {
+    console.error('Error accepting friend request:', error);
+    throw error;
+  }
+};
 
 module.exports = {
   userCheck,
   userCreateInDB,
   updateUserSkills,
-  deleteUserAccount
+  deleteUserAccount,
+  searchFriends,
+  sendFriendRequest,
+  sendAcceptFriendRequest,
 };

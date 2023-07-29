@@ -14,7 +14,7 @@ import FourOhFour from "./404.jsx";
 import GamePath from "./GamePath/GamePath.jsx";
 import Login from "./Login.jsx";
 import NewUser from "./NewUser.jsx";
-
+import FriendsModal from "./FriendsModal.jsx";
 
 export default function App() {
   const [view, setView] = useState({ name: "App" });
@@ -27,6 +27,7 @@ export default function App() {
   const [profilePic, setProfilePic] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStreakActive, setIsStreakActive] = useState(false);
+  const [isFriendsModalOpen, setIsFriendsModalOpen] = useState(false);
   const [isClickable, setIsClickable] = useState({
     supply1: true,
     supply2: false,
@@ -247,6 +248,11 @@ export default function App() {
     changeView("theme");
   };
 
+  const openFriendsModal = () => {
+    setIsFriendsModalOpen(true);
+  }
+
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -331,8 +337,9 @@ export default function App() {
               <br />
               <div style={{ overflowY: 'auto', position: 'center' }}>
                   {renderView()}
+                  {isFriendsModalOpen && <FriendsModal userProfileData={userProfileData} setUserProfileData={setUserProfileData} isFriendsModalOpen={isFriendsModalOpen} setIsFriendsModalOpen={setIsFriendsModalOpen} setUserProfileData={setUserProfileData}/>}
               </div>
-                <PermanentDrawerLeft userProfileData={userProfileData} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
+                <PermanentDrawerLeft openFriendsModal={openFriendsModal} userProfileData={userProfileData} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
               </div>
             </>
           )}
