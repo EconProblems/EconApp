@@ -114,7 +114,8 @@ export default function PermanentDrawerLeft(props) {
         innerDrawerContent = (
         <div>
           <br />
-          <span>&nbsp; &nbsp; Awards</span>
+          <Typography variant="h3" >  Awards</Typography>
+          {/* <span>&nbsp; &nbsp; Awards</span> */}
           <br />
           <br />
 

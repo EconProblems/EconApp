@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import theme from "../themes/default.jsx";
 import { useTheme, styled } from '@mui/material/styles';
 import { Modal, Box, Typography, TextField, Button } from "@mui/material";
 import axios from 'axios';
 
-export default function FriendsModal (props) {
+const FriendItem = styled(Box)(({ theme }) => ({
+  border: `1px solid ${theme.palette.grey[300]}`,
+  padding: theme.spacing(1),
+  marginBottom: theme.spacing(1),
+}));
+
+export default function FriendsModal(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [friendRequests, setFriendRequests] = useState([]);
   const [friends, setFriends] = useState([]);
   const [requestingFriends, setRequestingFriends] = useState([]);
-  // const [acceptingFriend, setAcceptingFriend] = useState({});
 
-  useEffect(()=> {
-    let friendsArr = props.userProfileData.friends;
+  useEffect(() => {
+    const friendsArr = props.userProfileData.friends;
     const filteredFriendsArr = friendsArr.filter((friend) => friend.isFriend);
     setFriends(filteredFriendsArr);
 
-    let filteredRequestingFriendsArr = props.userProfileData.friends.filter((friend) => friend.receivedRequest);
+    const filteredRequestingFriendsArr = friendsArr.filter((friend) => friend.receivedRequest);
     setRequestingFriends(filteredRequestingFriendsArr);
   }, [props.userProfileData])
 
@@ -49,27 +53,17 @@ export default function FriendsModal (props) {
     }, 500);
   };
 
-  const handleAccecptRequest = (friend) => {
-    axios
-      .put('/acceptFriendRequest', { friendId: friend.id, userId: props.userProfileData.id })
+  const handleAcceptRequest = (friend) => {
+    axios.put('/acceptFriendRequest', { friendId: friend.id, userId: props.userProfileData.id })
       .then(() => {
-
-
         const friendIndex = props.userProfileData.friends.findIndex((f) => f.id === friend.id);
-
-
-        // Create a copy of the friends array and remove the friend
         const updatedFriends = [...props.userProfileData.friends];
         updatedFriends.splice(friendIndex, 1);
-
-        // Update the userProfileData state with the updated friends array
         props.setUserProfileData((prevData) => ({
           ...prevData,
           friends: updatedFriends,
         }));
 
-
-        // Update the userProfileData state with the new friend data
         const newFriend = {
           id: friend.id,
           userName: friend.userName,
@@ -85,6 +79,7 @@ export default function FriendsModal (props) {
         setFriendRequests((prevRequests) =>
           prevRequests.filter((request) => request.id !== friend.id)
         );
+
         alert(`Accepted ${friend.userName} as a friend`);
       })
       .catch((error) => {
@@ -92,11 +87,7 @@ export default function FriendsModal (props) {
       });
   };
 
-
-
   const handleSendRequest = (friend) => {
-    // Send a friend request to the selected friend
-    // Check if the user is already a friend or a request has been sent or received
     for (const friendObj of props.userProfileData.friends) {
       if (friendObj.id === friend.id) {
         if (friendObj.isFriend) {
@@ -110,18 +101,15 @@ export default function FriendsModal (props) {
       }
     }
 
-    axios
-      .post('/sendFriendRequest', { friendId: friend.id, friendUserName: friend.userName, userId: props.userProfileData.id })
+    axios.post('/sendFriendRequest', { friendId: friend.id, friendUserName: friend.userName, userId: props.userProfileData.id })
       .then(() => {
-        // Update the friendRequests state to remove the friend from the list
         setFriendRequests((prevRequests) =>
           prevRequests.filter((request) => request.id !== friend.id)
         );
 
-        // Update the userProfileData state with the new friend data
         const newFriend = {
           id: friend.id,
-          userName: friend.userName, // Fixed the typo here
+          userName: friend.userName,
           sentRequest: true,
           receivedRequest: false,
           isFriend: false,
@@ -130,6 +118,7 @@ export default function FriendsModal (props) {
           ...prevData,
           friends: [...prevData.friends, newFriend],
         }));
+
         alert(`Request sent to ${friend.userName}`)
       })
       .catch((error) => {
@@ -152,7 +141,7 @@ export default function FriendsModal (props) {
       }}
     >
       <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: '70%', height: '70%', bgcolor: "background.paper", boxShadow: 24, p: 4 }}>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h3" gutterBottom>
           Friends
         </Typography>
         <TextField
@@ -162,55 +151,65 @@ export default function FriendsModal (props) {
           onChange={handleSearchInputChange}
           sx={{ marginBottom: 2 }}
         />
-        <Button variant="contained" onClick={handleSearch}>
-          Search
-        </Button>
+          <Button
+            variant="contained"
+            onClick={handleSearch}
+            style={{ margin: '10px' }}
+          >
+            Search
+          </Button>
+
         <Box mt={2}>
           {friendRequests.length === 0 ? (
             ""
           ) : (
             friendRequests.map((friend) => (
-              <Box key={friend.id} display="flex" alignItems="center" justifyContent="space-between" mt={1}>
+              <FriendItem key={friend.id}>
                 <Typography>{friend.userName}</Typography>
                 <Button variant="contained" onClick={() => handleSendRequest(friend)}>
                   Send Request
                 </Button>
-              </Box>
+              </FriendItem>
             ))
           )}
         </Box>
+
         <Box mt={2}>
           {requestingFriends.length === 0 ? (
-            <Typography>No current friend requests from other users</Typography>
+            <Typography variant="h4" >No current friend requests from other users</Typography>
           ) : (
             <>
               <Typography>Friend Requests</Typography>
               {requestingFriends.map((friend) => (
-                <Box key={friend.id} display="flex" alignItems="center" justifyContent="space-between" mt={1}>
+                <FriendItem key={friend.id}>
                   <Typography>{friend.userName}</Typography>
-                  <Button variant="contained" onClick={() => handleAccecptRequest(friend)}>
+                  <Button variant="contained" onClick={() => handleAcceptRequest(friend)}>
                     Accept Request
                   </Button>
-                </Box>
+                </FriendItem>
               ))}
             </>
           )}
         </Box>
-        <Box>
+
+        <Box mt={2}>
           {friends.length === 0 ? (
             <Typography>You haven't connected with any friends.</Typography>
           ) : (
             <>
-              <Typography>Your Friends</Typography>
+              <Typography variant="h4">Your Friends</Typography>
               {friends.map((friend) => (
-                <Box key={friend.id} display="flex" alignItems="center" justifyContent="space-between" mt={1}>
+                <FriendItem key={friend.id}>
                   <Typography>{friend.userName}</Typography>
-                </Box>
+                </FriendItem>
               ))}
             </>
           )}
         </Box>
-        <Button onClick={handleClose}>Close Friends</Button>
+
+        <Button mt={2} onClick={handleClose}>
+          Close Friends
+        </Button>
       </Box>
     </Modal>
   );
