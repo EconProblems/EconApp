@@ -210,7 +210,9 @@ export default function FriendsModal(props) {
         <Button mt={2} onClick={handleClose}>
           Close Friends
         </Button>
-      </Box>
+        <span style={{ color: 'red', fontStyle: 'italic' }}>
+  Planned friends functionality will include selecting accepted friends to see awards, skills, and ability to send app-generated congratulations
+</span>      </Box>
     </Modal>
   );
 };

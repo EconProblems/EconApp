@@ -114,11 +114,8 @@ export default function PermanentDrawerLeft(props) {
         innerDrawerContent = (
         <div>
           <br />
-          <Typography variant="h3" >  Awards</Typography>
-          {/* <span>&nbsp; &nbsp; Awards</span> */}
+          <Typography variant="h3" >{<span>&nbsp; &nbsp;</span>}Awards</Typography>
           <br />
-          <br />
-
           {<span>&nbsp; &nbsp;</span>}{awardsImage}
         </div>
       );
@@ -133,7 +130,8 @@ export default function PermanentDrawerLeft(props) {
         innerDrawerContent = <div>Friends Drawer Content</div>;
         break;
       case 'Units':
-        innerDrawerContent = <div>Units Drawer Content</div>;
+        innerDrawerContent = <div><br /><Typography variant="h3" >{<span>&nbsp; &nbsp;</span>}Units</Typography></div>
+
         break;
       default:
         innerDrawerContent = null;
@@ -222,6 +220,7 @@ export default function PermanentDrawerLeft(props) {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+            overflowX: 'hidden',
           },
         }}
         variant="permanent"
@@ -264,7 +263,7 @@ export default function PermanentDrawerLeft(props) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => handleLinkClick('About')}>
+            <ListItemButton onClick={props.openAboutModal}>
               <ListItemText primary="About EconProblems" />
             </ListItemButton>
           </ListItem>

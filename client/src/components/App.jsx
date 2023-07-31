@@ -15,6 +15,8 @@ import GamePath from "./GamePath/GamePath.jsx";
 import Login from "./Login.jsx";
 import NewUser from "./NewUser.jsx";
 import FriendsModal from "./FriendsModal.jsx";
+import AboutModal from "./AboutModal.jsx";
+import SupplyUnitModal from "./SupplyUnitModal.jsx";
 
 export default function App() {
   const [view, setView] = useState({ name: "App" });
@@ -28,6 +30,9 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStreakActive, setIsStreakActive] = useState(false);
   const [isFriendsModalOpen, setIsFriendsModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isSupplyUnitModalOpen, setIsSupplyUnitModalOpen] = useState(false);
+
   const [isClickable, setIsClickable] = useState({
     supply1: true,
     supply2: false,
@@ -117,6 +122,41 @@ export default function App() {
   };
 
 
+
+  const UnitButton = ({ onClick, label }) => {
+    // Determine the color based on the isClickable prop
+    const buttonColor = theme.palette.primary.light;
+
+    const handleClick = (e) => {onClick()};
+
+    return (
+      <div style={{ justifyContent: "center", textAlign: "center" }}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{
+            borderRadius: "15px",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+            width: "250px",
+            height: "70px",
+            marginBottom: "40px",
+            textTransform: "none",
+            fontSize: "1.25em",
+            fontWeight: "bold",
+            color: "#363636",
+            backgroundColor: buttonColor,
+          }}
+          onClick={onClick}
+        >
+          {label}
+        </Button>
+      </div>
+    );
+  };
+
+
+
   useEffect(() => {
     // Check if the values are stored in localStorage and update state accordingly
     const storedIsUser = localStorage.getItem("isUser");
@@ -172,6 +212,13 @@ export default function App() {
               <br />
             </div>
             <br />
+          <form onSubmit={handleSupplyUnitSubmit}>
+            <UnitButton
+              label="Supply Unit"
+              isClickable={isClickable.supply1}
+            />
+          </form>
+          < br/>
           <form onSubmit={handleSupplyCurveSubmit}>
             <AppButton
               label="Supply 1"
@@ -194,6 +241,13 @@ export default function App() {
         );
       default:
         return <FourOhFour />;
+    }
+  };
+
+  const handleSupplyUnitSubmit = (e) => {
+    e.preventDefault();
+    if (isClickable.supply1) {
+      openSupplyUnitModal();
     }
   };
 
@@ -251,6 +305,15 @@ export default function App() {
   const openFriendsModal = () => {
     setIsFriendsModalOpen(true);
   }
+
+    const openSupplyUnitModal = () => {
+    setIsSupplyUnitModalOpen(true);
+  }
+
+  const openAboutModal = () => {
+    setIsAboutModalOpen(true);
+  }
+
 
 
   return (
@@ -338,11 +401,15 @@ export default function App() {
               <div style={{ overflowY: 'auto', position: 'center' }}>
                   {renderView()}
                   {isFriendsModalOpen && <FriendsModal userProfileData={userProfileData} setUserProfileData={setUserProfileData} isFriendsModalOpen={isFriendsModalOpen} setIsFriendsModalOpen={setIsFriendsModalOpen} setUserProfileData={setUserProfileData}/>}
+                  {isSupplyUnitModalOpen && <SupplyUnitModal isSupplyUnitModalOpen={isSupplyUnitModalOpen} setIsSupplyUnitModalOpen={setIsSupplyUnitModalOpen}/>}
+
+                  {isAboutModalOpen && <AboutModal openAboutModal={openAboutModal} isAboutModalOpen={isAboutModalOpen} setIsAboutModalOpen={setIsAboutModalOpen}/>}
               </div>
-                <PermanentDrawerLeft openFriendsModal={openFriendsModal} userProfileData={userProfileData} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
+                <PermanentDrawerLeft openFriendsModal={openFriendsModal} userProfileData={userProfileData} openAboutModal={openAboutModal} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
               </div>
             </>
           )}
+          <span style={{ color: 'red', fontStyle: 'italic' }}>Future units to be built will include micro, macro, trade, development, and personal finance concepts ranging from supply and demand to fun things like aggregate supply and tariffs!</span>
         </Box>
       </Container>
     </ThemeProvider>
