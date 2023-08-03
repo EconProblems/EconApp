@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Draggable from "react-draggable";
+import Draggable from 'react-draggable';
 import SCurve from "../../dist/SCurve.png";
-import diagram from "../../dist/diagram.png";
+// import diagram from "../../dist/diagram.png";
+import SupplyCurvePic from "../../dist/images/SupplyCurve.png";;
+import diagram from "../../dist/images/BlankMicro.png";
 import supplyQuestions from "../../../DummyData/dummyData.js";
 import ProgressBar from "react-progressbar";
 import coin from "../../dist/coin.png";
@@ -14,6 +16,8 @@ import Modal from '@mui/material/Modal';
 import { Typography, Button, Box } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import axios from 'axios';
+import leftArrow from "../../dist/images/leftArrow.png"
+import rightArrow from "../../dist/images/rightArrow.png"
 
 export default function SupplyCurve(props) {
   const percent = 100 / supplyQuestions.supplyQuestions.length;
@@ -64,6 +68,8 @@ export default function SupplyCurve(props) {
       props.changeView('App');
       handleClose();
     }
+    setXPos(100);
+    setCurPos('');
   };
 
   const incorrectSetNextQuestion = () => {
@@ -91,6 +97,8 @@ export default function SupplyCurve(props) {
 
     const randomSetIndex = Math.floor(Math.random() * questions.length);
     setCurrentQuestion(questions[randomSetIndex]);
+    setXPos(100);
+    setCurPos('');
   };
 
   const handleDrag = (e, ui) => {
@@ -190,22 +198,37 @@ export default function SupplyCurve(props) {
             <br />
 
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <img src={diagram} style={{ position: "absolute", zIndex: "1", top: "+30px" }} alt="diagram" />
+            <img
+                src={diagram}
+                style={{
+                  position: "absolute",
+                  zIndex: "1",
+                  top: "+30px",
+                  width: "450px",
+                  height: "auto",
+                }}
+                alt="diagram"
+              />
+                <div style={{ position: "absolute", marginLeft: "50px", zIndex: "2", top: "180px", width: "30px", height: "auto" }}>
+                  <img src={leftArrow} style={{ position: "absolute", left: "5px", width: "100px", height: "auto", opacity: curPos === "left" ? 0 : 1, transition: "opacity 0.3s ease-in-out" }} alt="left-arrow" />
+                  <img src={rightArrow} style={{ position: "absolute", right: "15px", width: "100px", height: "auto", opacity: curPos === "right" ? 0 : 1, transition: "opacity 0.3s ease-in-out" }} alt="right-arrow" />
+                </div>
               <Draggable axis="x" onDrag={handleDrag} position={{ x: xPos - 50, y: 0 }}>
-                <img src={SCurve} style={{ position: "absolute", zIndex: "2", top: "+80px" }} alt="s-curve" />
+
+                <img src={SupplyCurvePic} draggable="false" style={{ position: "absolute", marginLeft: "-100px", zIndex: "2", top: "+80px", width: "400px", height: "auto" }} alt="s-curve" />
+
               </Draggable>
+              <div style={{ marginTop: "350px", marginBottom: "550px" }}>
+                <form onSubmit={handleSubmit}>
+                  <Button type="submit">Submit Answer</Button>
+                </form>
+              </div>
             </div>
-
           </div>
-
           </div>
-          <div style={{ marginTop: "auto", marginBottom: "50px" }}>
-              <form onSubmit={handleSubmit}>
-                <Button type="submit">Submit Answer</Button>
-              </form>
-            </div>
         </div>
       </Box>
     </Modal>
   );
 }
+

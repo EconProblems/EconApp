@@ -18,6 +18,7 @@ import FriendsModal from "./FriendsModal.jsx";
 import AboutModal from "./AboutModal.jsx";
 import SupplyUnitModal from "./SupplyUnitModal.jsx";
 
+import coin from "../../dist/coin.png";
 export default function App() {
   const [view, setView] = useState({ name: "App" });
   const [user, setUser] = useState([]);
@@ -237,6 +238,8 @@ export default function App() {
               isClickable={isClickable.supply3}
             />
           </form>
+          <span style={{ color: 'red', fontStyle: 'italic' }}>Future units to be built will include micro, macro, trade, development, and personal finance concepts ranging from supply and demand to fun things like aggregate supply and tariffs!</span>
+
         </div>
         );
       default:
@@ -401,7 +404,7 @@ export default function App() {
               <div style={{ overflowY: 'auto', position: 'center' }}>
                   {renderView()}
                   {isFriendsModalOpen && <FriendsModal userProfileData={userProfileData} setUserProfileData={setUserProfileData} isFriendsModalOpen={isFriendsModalOpen} setIsFriendsModalOpen={setIsFriendsModalOpen} setUserProfileData={setUserProfileData}/>}
-                  {isSupplyUnitModalOpen && <SupplyUnitModal isSupplyUnitModalOpen={isSupplyUnitModalOpen} setIsSupplyUnitModalOpen={setIsSupplyUnitModalOpen}/>}
+                  {isSupplyUnitModalOpen && <SupplyUnitModal isSupplyUnitModalOpen={isSupplyUnitModalOpen} setIsSupplyUnitModalOpen={setIsSupplyUnitModalOpen} setUserProfileData={setUserProfileData}/>}
 
                   {isAboutModalOpen && <AboutModal openAboutModal={openAboutModal} isAboutModalOpen={isAboutModalOpen} setIsAboutModalOpen={setIsAboutModalOpen}/>}
               </div>
@@ -409,7 +412,6 @@ export default function App() {
               </div>
             </>
           )}
-          <span style={{ color: 'red', fontStyle: 'italic' }}>Future units to be built will include micro, macro, trade, development, and personal finance concepts ranging from supply and demand to fun things like aggregate supply and tariffs!</span>
         </Box>
       </Container>
     </ThemeProvider>

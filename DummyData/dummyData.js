@@ -51,10 +51,10 @@ const supplyQuestions2 = {
     ans:"Fewer people willing to take the risk means that there are fewer entrepreneurs."
   },
   {
-    question: 'What will happen to the supply of toilet paper if more wood pulp is used in construction products?',
-    pos:'left',
-    wordBank: [],
-    wordAns: '',
+    question: 'What supply determinant is impacted for the supply of toilet paper if more wood pulp is used in construction products?',
+    pos:'',
+    wordBank: ['land', 'labor', 'capital', 'entrepreneurship'],
+    wordAns: ['capital'],
     ans:'Less capital means less supply.'
   },
   {
@@ -70,7 +70,7 @@ const supplyQuestions2 = {
     ans:'Supply increases with an increase in people willing and able to do produce a good.'
   },
   {
-    question: 'What will happen to the supply of cars if there is a shortage of skilled automotive technicians?',
+    question: 'What determinant of supply will be impacted in the supply of cars if there is a shortage of skilled automotive technicians?',
     wordBank: ['land', 'labor', 'capital', 'entrepreneurship'],
     wordAns: ['labor'],
     ans: 'The supply of cars will decrease due to a shortage of skilled workers in the automotive industry.'
@@ -82,7 +82,7 @@ const supplyQuestions2 = {
     ans: 'Stricter environmental standards affect the willingness and ability of entrepreneurs to produce, thus impacting the supply.'
   },
   {
-    question: 'How does an increase in the cost of machinery and equipment impact the supply of goods?',
+    question: 'What determinant of supply is impacted during increase in the cost of machinery and equipment?',
     wordBank: ['land', 'labor', 'capital', 'entrepreneurship'],
     wordAns: ['capital'],
     ans: 'Higher costs of machinery and equipment reduce the supply of goods.'

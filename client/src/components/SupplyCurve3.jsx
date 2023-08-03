@@ -59,6 +59,7 @@ export default function SupplyCurve3(props) {
       setIsWordBank(true);
       console.log('diagram is false');
     }
+    setCurPos('');
   };
 
   const handleClose = () => {
@@ -121,6 +122,7 @@ export default function SupplyCurve3(props) {
       setIsWordBank(true);
       console.log('diagram is false');
     }
+    setCurPos('');
   };
 
   useEffect(() => {
@@ -193,6 +195,7 @@ export default function SupplyCurve3(props) {
           currentQuestion={currentQuestion}
           handleDiagramSubmit={handleDiagramSubmit}
           setCurPos={setCurPos}
+          curPos={curPos}
         />
       )}
       {isWordBank && (
