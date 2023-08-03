@@ -212,6 +212,57 @@ const sendAcceptFriendRequest = async (friendId, userId) => {
   }
 };
 
+
+const sendRejectFriendRequest = async (friendId, userId) => {
+  try {
+    const user = await Users.findOne({ id: userId }).exec();
+    const friend = await Users.findOne({ id: friendId }).exec();
+
+    if (user && friend) {
+      // Check if the friend request exists in the user's friend list
+      const userFriendRequest = user.friends.find(
+        (friend) => friend.id === friendId && friend.receivedRequest === true
+      );
+
+      if (!userFriendRequest) {
+        console.log("Friend request not found in user's friend list");
+        throw new Error('Friend request not found');
+      }
+
+      // Delete the friend object from the user's friend array
+      const indexInUserFriendList = user.friends.findIndex(
+        (friend) => friend.id === friendId
+      );
+      if (indexInUserFriendList !== -1) {
+        user.friends.splice(indexInUserFriendList, 1);
+      }
+
+      // Save the updated user document
+      await user.save();
+    }
+  } catch (error) {
+    console.error('Error rejecting friend request:', error);
+    throw error;
+  }
+};
+
+const findFriend = async (friendId) => {
+  try {
+    // Use the Mongoose model to find the friend by their ID
+    const friend = await Users.findOne({ id: friendId }).exec();
+    if (friend) {
+      return friend;
+    } else {
+      console.log('Friend not found');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error finding friend:', error);
+    throw error;
+  }
+};
+
+
 module.exports = {
   userCheck,
   userCreateInDB,
@@ -220,4 +271,6 @@ module.exports = {
   searchFriends,
   sendFriendRequest,
   sendAcceptFriendRequest,
+  sendRejectFriendRequest,
+  findFriend
 };

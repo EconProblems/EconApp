@@ -17,8 +17,9 @@ import NewUser from "./NewUser.jsx";
 import FriendsModal from "./FriendsModal.jsx";
 import AboutModal from "./AboutModal.jsx";
 import SupplyUnitModal from "./SupplyUnitModal.jsx";
-
 import coin from "../../dist/coin.png";
+import supplyAwardGrey from "../../dist/images/supplyAwardGrey.png"
+
 export default function App() {
   const [view, setView] = useState({ name: "App" });
   const [user, setUser] = useState([]);
@@ -151,6 +152,7 @@ export default function App() {
           onClick={onClick}
         >
           {label}
+          <img src={supplyAwardGrey} style={{width: "45px", height: "auto", margin: "17px", borderRadius: "5px"}}/>
         </Button>
       </div>
     );
@@ -408,7 +410,7 @@ export default function App() {
 
                   {isAboutModalOpen && <AboutModal openAboutModal={openAboutModal} isAboutModalOpen={isAboutModalOpen} setIsAboutModalOpen={setIsAboutModalOpen}/>}
               </div>
-                <PermanentDrawerLeft openFriendsModal={openFriendsModal} userProfileData={userProfileData} openAboutModal={openAboutModal} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
+                <PermanentDrawerLeft openFriendsModal={openFriendsModal} handleSupplyUnitSubmit={handleSupplyUnitSubmit} userProfileData={userProfileData} openAboutModal={openAboutModal} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
               </div>
             </>
           )}

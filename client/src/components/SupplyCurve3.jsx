@@ -100,7 +100,11 @@ export default function SupplyCurve3(props) {
         id: props.userProfileData._id
       };
       console.log(updatedSkills)
-
+      if (!props.userProfileData.skills.demand1) {
+      alert("You've completed the lesson and the unit! You've earned an award!");
+      } else {
+        alert("You've completed the lesson!");
+      }
       console.log('here is updated userProfileData', updatedSkills)
       axios.put(`/user/${props.userProfileData.id}`, { data: updatedSkills })
       .then((response) => {
@@ -110,7 +114,7 @@ export default function SupplyCurve3(props) {
       .catch((error) => {
         console.error('Error updating skills:', error);
       });
-      alert("You've completed the lesson. The devs need to change the view");
+
       props.changeView('App');
     }
 

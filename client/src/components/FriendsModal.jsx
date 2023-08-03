@@ -14,6 +14,7 @@ export default function FriendsModal(props) {
   const [friendRequests, setFriendRequests] = useState([]);
   const [friends, setFriends] = useState([]);
   const [requestingFriends, setRequestingFriends] = useState([]);
+  const [selectedFriend, setSelectedFriend] = useState(null); // New state to store the selected friend's data
 
   useEffect(() => {
     const friendsArr = props.userProfileData.friends;
@@ -51,6 +52,44 @@ export default function FriendsModal(props) {
         handleSearch();
       }
     }, 500);
+  };
+
+
+  const handleRejectRequest = (friend) => {
+    axios
+      .put('/rejectFriendRequest', { friendId: friend.id, userId: props.userProfileData.id })
+      .then(() => {
+        // Remove the friend request from friendRequests state
+        setFriendRequests((prevRequests) => prevRequests.filter((request) => request.id !== friend.id));
+
+        // Perform updates to props.userProfileData.friends state to reject the friend request
+        const friendIndex = props.userProfileData.friends.findIndex((f) => f.id === friend.id);
+        const updatedFriends = [...props.userProfileData.friends];
+        updatedFriends.splice(friendIndex, 1);
+
+        props.setUserProfileData((prevData) => ({
+          ...prevData,
+          friends: updatedFriends,
+        }));
+
+        alert(`Rejected friend request from ${friend.userName}`);
+      })
+      .catch((error) => {
+        console.error('Error rejecting friend request:', error);
+      });
+  };
+
+
+  const handleFriendClick = (friendId) => {
+    console.log("here is friendId", friendId)
+    axios.get(`/selectFriend/${friendId}`)
+      .then((response) => {
+        setSelectedFriend(response.data);
+        console.log("handle friend get",response)
+      })
+      .catch((error) => {
+        console.error("Error fetching friend data:", error);
+      });
   };
 
   const handleAcceptRequest = (friend) => {
@@ -126,6 +165,10 @@ export default function FriendsModal(props) {
       });
   };
 
+  const handleCloseSelectedFriendModal = () => {
+    setSelectedFriend(null);
+  };
+
   const handleClose = () => {
     props.setIsFriendsModalOpen(false);
   };
@@ -140,7 +183,33 @@ export default function FriendsModal(props) {
         justifyContent: 'center',
       }}
     >
-      <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: '70%', height: '70%', bgcolor: "background.paper", boxShadow: 24, p: 4 }}>
+    <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: '70%', height: '70%', bgcolor: "background.paper", boxShadow: 24, p: 4, zIndex: 9999 }}>
+        {selectedFriend ? ( // Check if a friend is selected, then display the modal content
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              bgcolor: "rgba(255, 255, 255, 0.9)", // Add a background color to the selected friend box
+              zIndex: 9999,
+            }}
+          >
+            <Typography variant="h3" gutterBottom>
+              {selectedFriend.userName}'s Profile
+            </Typography>
+            {/* Display the friend's data here */}
+            <Typography variant="h4">Awards: {selectedFriend.awards}</Typography>
+            <Typography variant="h4">Daily Streak: {selectedFriend.streak}</Typography>
+            {/* You can display other details like skills, etc. as per your data model */}
+            <Button onClick={handleCloseSelectedFriendModal}>Close</Button>
+          </Box>
+        ) : null}
         <Typography variant="h3" gutterBottom>
           Friends
         </Typography>
@@ -186,6 +255,9 @@ export default function FriendsModal(props) {
                   <Button variant="contained" onClick={() => handleAcceptRequest(friend)}>
                     Accept Request
                   </Button>
+                  <Button variant="contained" style={{margin: "10px"}} onClick={() => handleRejectRequest(friend)}>
+                    Reject Request
+                  </Button>
                 </FriendItem>
               ))}
             </>
@@ -199,7 +271,7 @@ export default function FriendsModal(props) {
             <>
               <Typography variant="h4">Your Friends</Typography>
               {friends.map((friend) => (
-                <FriendItem key={friend.id}>
+                <FriendItem key={friend.id} onClick={() => handleFriendClick(friend.id)}>
                   <Typography>{friend.userName}</Typography>
                 </FriendItem>
               ))}
@@ -211,7 +283,7 @@ export default function FriendsModal(props) {
           Close Friends
         </Button>
         <span style={{ color: 'red', fontStyle: 'italic' }}>
-  Planned friends functionality will include selecting accepted friends to see awards, skills, and ability to send app-generated congratulations
+  Planned future friends functionality will include the ability to send app-generated congratulations when friends earn awards and new skills
 </span>      </Box>
     </Modal>
   );

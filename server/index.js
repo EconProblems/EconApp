@@ -5,7 +5,7 @@ const https = require('https');
 const fs = require('fs');
 const mongoose = require("mongoose");
 require('dotenv').config();
-const { userGet, userCreate, updateSkills, deleteUserAccountRoute, searchFriendsRoute, sendFriendRequestRoute, sendAcceptFriendRequestRoute } = require("./routes/userRoutes.js");
+const { userGet, userCreate, updateSkills, deleteUserAccountRoute, findFriendRoute, searchFriendsRoute, sendFriendRequestRoute, sendAcceptFriendRequestRoute, sendRejectFriendRequestRoute } = require("./routes/userRoutes.js");
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const app = express();
@@ -36,10 +36,11 @@ app.get('/user/:userId', userGet);
 app.post('/user/', userCreate);
 app.put('/user/:userId', updateSkills);
 app.delete('/user/:userId', deleteUserAccountRoute);
-
+app.get('/selectFriend/:friendId', findFriendRoute);
 app.get('/searchFriends', searchFriendsRoute);
 app.post('/sendFriendRequest', sendFriendRequestRoute);
 app.put('/acceptFriendRequest', sendAcceptFriendRequestRoute);
+app.put('/rejectFriendRequest', sendRejectFriendRequestRoute);
 
 
 

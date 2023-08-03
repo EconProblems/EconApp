@@ -19,6 +19,9 @@ import Modal from '@mui/material/Modal';
 import supplyAward from "../../dist/SupplyAward.png";
 import Tooltip from '@mui/material/Tooltip';
 
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 const drawerWidth = 210;
 
 export default function PermanentDrawerLeft(props) {
@@ -53,6 +56,18 @@ export default function PermanentDrawerLeft(props) {
   const handleDeleteButton = () => {
     openDeleteAccountModal();
   };
+
+
+  const hasReceivedFriendRequest = () => {
+    if (!props.userProfileData || !props.userProfileData.friends) return false;
+
+    for (const friend of props.userProfileData.friends) {
+      if (friend.receivedRequest) return true;
+    }
+
+    return false;
+  };
+
 
   const handleDeleteAccount = () => {
     // Make a DELETE request to the server to delete the account associated with the userId.
@@ -130,7 +145,11 @@ export default function PermanentDrawerLeft(props) {
         innerDrawerContent = <div>Friends Drawer Content</div>;
         break;
       case 'Units':
-        innerDrawerContent = <div><br /><Typography variant="h3" >{<span>&nbsp; &nbsp;</span>}Units</Typography></div>
+        innerDrawerContent = <div><br /><Typography variant="h3" >{<span>&nbsp; &nbsp;</span>}Units</Typography>
+        <ListItem disablePadding onClick={props.handleSupplyUnitSubmit}>
+        <span>&nbsp; &nbsp;</span><ListItemText primary="Supply Unit" />
+        </ListItem>
+        </div>
 
         break;
       default:
@@ -252,8 +271,18 @@ export default function PermanentDrawerLeft(props) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={props.openFriendsModal}>
-              <ListItemText primary="Friends" />
+          <ListItemButton onClick={props.openFriendsModal}>
+              <Badge
+                color="error"
+                badgeContent={hasReceivedFriendRequest() ? 1 : 0}
+                showZero={false}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+              >
+                <ListItemText primary="Friends" />
+              </Badge>
             </ListItemButton>
           </ListItem>
           <Divider />

@@ -6,6 +6,8 @@ const {deleteUserAccount} = require('../../db/index.js');
 const { searchFriends } = require("../../db/index.js");
 const { sendFriendRequest } = require("../../db/index.js");
 const {sendAcceptFriendRequest} = require("../../db/index.js");
+const {sendRejectFriendRequest} = require("../../db/index.js");
+const {findFriend} = require("../../db/index.js");
 
 const userGet = async (req, res) => {
   const { userId } = req.params;
@@ -105,6 +107,34 @@ const sendAcceptFriendRequestRoute = async (req, res) => {
   }
 }
 
+const sendRejectFriendRequestRoute = async (req, res) => {
+  const { friendId, userId } = req.body;
+
+  try {
+    await sendRejectFriendRequest(friendId, userId);
+    res.status(200).json({ message: 'Rejected friend request successfully' });
+  } catch (error) {
+    console.error('Error rejecting friend request:', error);
+    res.status(500).json({ message: 'Failed to reject friend request' });
+  }
+};
+
+const findFriendRoute = async (req, res) => {
+  const { friendId } = req.params;
+
+  console.log(friendId)
+  try {
+    const friendData = await findFriend(friendId);
+    console.log('Friend data found', friendData);
+    res.json(friendData);
+  } catch (error) {
+    console.error('Error finding friend data:', error);
+    res.status(500).json({ message: 'Failed to reject friend request' });
+    throw error;
+
+  }
+};
+
 module.exports = {
-  userGet, userCreate, updateSkills, deleteUserAccountRoute, searchFriendsRoute, sendFriendRequestRoute, sendAcceptFriendRequestRoute
+  userGet, userCreate, updateSkills, findFriendRoute, deleteUserAccountRoute, searchFriendsRoute, sendFriendRequestRoute, sendAcceptFriendRequestRoute, sendRejectFriendRequestRoute
 };
