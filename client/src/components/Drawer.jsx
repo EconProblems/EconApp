@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useSpring, animated } from 'react-spring';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+import SwipeableDrawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -57,6 +58,7 @@ export default function PermanentDrawerLeft(props) {
     openDeleteAccountModal();
   };
 
+  
 
   const hasReceivedFriendRequest = () => {
     if (!props.userProfileData || !props.userProfileData.friends) return false;
@@ -90,6 +92,11 @@ export default function PermanentDrawerLeft(props) {
         console.error('Error during account deletion:', error);
         // Handle any other errors that might occur during the account deletion process.
       });
+  };
+  
+
+  const handleCloseSwipeable = () => {
+    props.setIsDrawerOpen(false)
   };
 
   const renderInnerDrawer = () => {
@@ -230,9 +237,9 @@ export default function PermanentDrawerLeft(props) {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div>
       <CssBaseline />
-      <Drawer
+      {!props.matches ? ( <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -298,10 +305,81 @@ export default function PermanentDrawerLeft(props) {
           </ListItem>
         </List>
       </Drawer>
+      ) : (
+        <SwipeableDrawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            overflowX: 'hidden',
+          }
+        }}
+        anchor="left"
+        open={props.isDrawerOpen}
+        onClose={handleCloseSwipeable}
+      >
+        <img src="/images/Econ3.png"
+          alt="SupplyAward"
+          style={{ transform: 'scale(1.5)' }}
+          title="You've mastered the basics of Supply!"
+        />
+        <Divider />
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => handleLinkClick('Profile')}>
+              <img
+                src={props.profilePic}
+                alt="Profile"
+                style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+              />
+              <ListItemText primary="Profile" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <Typography variant="body1"> &nbsp; &nbsp;Current Streak: {streakValue} days</Typography>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => handleLinkClick('Awards')}>
+              <ListItemText primary="Awards" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+          <ListItemButton onClick={props.openFriendsModal}>
+              <Badge
+                color="error"
+                badgeContent={hasReceivedFriendRequest() ? 1 : 0}
+                showZero={false}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+              >
+                <ListItemText primary="Friends" />
+              </Badge>
+            </ListItemButton>
+          </ListItem>
+          <Divider />
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => handleLinkClick('Units')}>
+              <ListItemText primary="Units" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={props.openAboutModal}>
+              <ListItemText primary="About EconProblems" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </SwipeableDrawer>
+
+
+      )}
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
         <Toolbar />
       </Box>
       {renderInnerDrawer()}
-    </Box>
+    </div>
   );
 }

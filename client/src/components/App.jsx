@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Typography, Button, CssBaseline, Box, Container } from "@mui/material";
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Drawer from '@mui/material/Drawer';
 import axios from "axios";
+
+import { AppBar, Toolbar, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import theme from "../themes/default.jsx";
 import ThemeExample from "./ThemeExample.jsx";
@@ -34,6 +38,7 @@ export default function App() {
   const [isFriendsModalOpen, setIsFriendsModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [isSupplyUnitModalOpen, setIsSupplyUnitModalOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const [isClickable, setIsClickable] = useState({
     supply1: true,
@@ -319,6 +324,9 @@ export default function App() {
     setIsAboutModalOpen(true);
   }
 
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+
+
 
 
   return (
@@ -336,6 +344,22 @@ export default function App() {
             textAlign: 'center' // Add this property to center the buttons
           }}
         >
+          {isUser && matches && 
+          <AppBar position="static">
+          <Toolbar>
+            {matches && (
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+              >
+              <MenuIcon />
+            </IconButton>
+            )}
+          </Toolbar>
+        </AppBar>
+          }
           <span style={{color: "red"}}>Currently in development</span>
           <Typography variant="h1" align="center" gutterBottom color="primary.main">
             {!isUser && <span>Welcome to EconProblems</span>}
@@ -410,7 +434,7 @@ export default function App() {
 
                   {isAboutModalOpen && <AboutModal openAboutModal={openAboutModal} isAboutModalOpen={isAboutModalOpen} setIsAboutModalOpen={setIsAboutModalOpen}/>}
               </div>
-                <PermanentDrawerLeft openFriendsModal={openFriendsModal} handleSupplyUnitSubmit={handleSupplyUnitSubmit} userProfileData={userProfileData} openAboutModal={openAboutModal} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
+                <PermanentDrawerLeft matches={matches} isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} openFriendsModal={openFriendsModal} handleSupplyUnitSubmit={handleSupplyUnitSubmit} userProfileData={userProfileData} openAboutModal={openAboutModal} isStreakActive={isStreakActive} handleLogout={handleLogout} profilePic={profilePic} setProfilePic={setProfilePic} setUserProfileData={setUserProfileData}/>
               </div>
             </>
           )}

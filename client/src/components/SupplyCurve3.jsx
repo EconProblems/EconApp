@@ -182,11 +182,11 @@ export default function SupplyCurve3(props) {
         <div style={{ position: "absolute", top: 0, left: 0, zIndex: "3" }}>
           <img src={close} alt="close" onClick={handleClose} />
         </div>
-        <div style={{ position: "fixed", top: "20px", left: "50px", width: "95%", zIndex: "3" }}>
+        <div style={{ position: "fixed", top: "20px", left: "50px", width: "90%", zIndex: "3" }}>
             {prog > 0 ? (
               <ProgressBar completed={prog} style={progressBarStyle} />
             ) : (
-              <div style={{ width: "100%", height: "10px", border: "1px solid #ccc" }} />
+              <div style={{ width: "90%", height: "10px", border: "1px solid #ccc" }} />
             )}
                     <div style={{ left: "20px", display: "flex", zIndex: "3" }}>
           {coins.map((coin, i) => (
