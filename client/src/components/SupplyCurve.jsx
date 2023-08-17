@@ -30,6 +30,8 @@ export default function SupplyCurve(props) {
   const [playIncorrect] = useSound(incorrect);
   const [coins, setCoins] = useState([coin, coin, coin]);
 
+  const theme = useTheme();
+  
   useEffect(() => {
     setNextQuestion();
   }, []);
@@ -153,6 +155,7 @@ export default function SupplyCurve(props) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        overflowY: 'scroll',
       }}
     >
       <Box
@@ -193,12 +196,25 @@ export default function SupplyCurve(props) {
           </div>
           <br />
           <div style={{ position: "relative"}}>
-            <p>{currentQuestion && currentQuestion.question}</p>
-            <span style={{ fontSize: "12px", color: "#E40066" }}>drag the curve left or right to answer the question</span>
-            <br />
+          <div style={{ position: "relative" }}>
+            <div style={{ margin: "10px", marginTop: "20px", marginBottom: "40px" }}>
+              <p style={{ maxWidth: "80vw" }}>{currentQuestion && currentQuestion.question}</p>
+              <span style={{ fontSize: "12px", color: "#E40066" }}>drag the curve left or right to answer the question</span>
+              <br />
+            </div>
+          </div>
 
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <img
+          <div
+    style={{
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      marginTop: "5px", 
+      size: "2em"// Adjust this value to move the container further down
+    
+    }}
+  >            <img
                 src={diagram}
                 style={{
                   position: "absolute",
@@ -218,7 +234,7 @@ export default function SupplyCurve(props) {
                 <img src={SupplyCurvePic} draggable="false" style={{ position: "absolute", marginLeft: "-100px", zIndex: "2", top: "+80px", width: "400px", height: "auto" }} alt="s-curve" />
 
               </Draggable>
-              <div style={{ marginTop: "350px", marginBottom: "550px" }}>
+              <div style={{ marginTop: "450px", marginBottom: "550px" }}>
                 <form onSubmit={handleSubmit}>
                   <Button type="submit">Submit Answer</Button>
                 </form>

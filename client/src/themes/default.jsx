@@ -119,7 +119,7 @@ const theme = createTheme({
           backgroundColor: "#e40066",
           color: "#000000",
           "&:hover": {
-            backgroundColor: "#345995",
+            backgroundColor: "#e40066",
           },
           textTransform: "none",
         },
