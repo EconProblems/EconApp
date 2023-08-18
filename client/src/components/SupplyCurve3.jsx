@@ -168,20 +168,23 @@ export default function SupplyCurve3(props) {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          overflow: 'auto',
         }}
       >
         <div
         style={{
-          width: '95%',
-          height: '95%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '20px',
+          overflowY: 'auto',
         }}>
-        <div style={{ position: "absolute", top: 0, left: 0, zIndex: "3" }}>
-          <img src={close} alt="close" onClick={handleClose} />
-        </div>
+          <div style={{ position: "absolute", top: 0, left: 0, zIndex: "3" }}>
+            <img src={close} alt="close" onClick={handleClose} />
+          </div>
         <div style={{ position: "fixed", top: "20px", left: "50px", width: "90%", zIndex: "3" }}>
             {prog > 0 ? (
               <ProgressBar completed={prog} style={progressBarStyle} />

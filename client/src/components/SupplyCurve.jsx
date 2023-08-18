@@ -19,6 +19,7 @@ import axios from 'axios';
 import leftArrow from "../../dist/images/leftArrow.png"
 import rightArrow from "../../dist/images/rightArrow.png"
 
+
 export default function SupplyCurve(props) {
   const percent = 100 / supplyQuestions.supplyQuestions.length;
   const [questions, setQuestions] = useState(supplyQuestions.supplyQuestions);
@@ -155,7 +156,11 @@ export default function SupplyCurve(props) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        overflow:'scroll',
+        height:'100%',
         overflowY: 'scroll',
+        display:'block'
+    
       }}
     >
       <Box
@@ -165,20 +170,26 @@ export default function SupplyCurve(props) {
           backgroundColor: '#ffffff',
           boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
           textAlign: 'center',
-          position: 'relative',
+          position: 'absolute',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'column', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          overflow: 'auto',
         }}
       >
+        
         <div
         style={{
-          width: '95%',
-          height: '95%',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '20px',
+          overflowY: 'auto', 
+          maxHeight: 'calc(100vh - 40px)',
         }}>
           <div style={{ position: "absolute", top: 0, left: 0, zIndex: "3" }}>
             <img src={close} alt="close" onClick={handleClose} />
@@ -195,54 +206,64 @@ export default function SupplyCurve(props) {
           ))}
           </div>
           <br />
-          <div style={{ position: "relative"}}>
           <div style={{ position: "relative" }}>
-            <div style={{ margin: "10px", marginTop: "20px", marginBottom: "40px" }}>
-              <p style={{ maxWidth: "80vw" }}>{currentQuestion && currentQuestion.question}</p>
-              <span style={{ fontSize: "12px", color: "#E40066" }}>drag the curve left or right to answer the question</span>
-              <br />
-            </div>
-          </div>
-
-          <div
+  <div style={{ position: "relative" }}>
+    <div style={{ margin: "10px", marginTop: "20px", marginBottom: "40px" }}>
+      <p style={{ maxWidth: "80vw" }}>{currentQuestion && currentQuestion.question}</p>
+      <span style={{ fontSize: "12px", color: "#E40066" }}>drag the curve left or right to answer the question</span>
+      <br />
+    </div>
+  </div>
+  <div
     style={{
       position: "relative",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       marginTop: "5px", 
-      size: "2em"// Adjust this value to move the container further down
-    
+      size: "2em"
     }}
-  >            <img
-                src={diagram}
-                style={{
-                  position: "absolute",
-                  zIndex: "1",
-                  top: "+30px",
-                  width: "450px",
-                  height: "auto",
-                }}
-                alt="diagram"
-              />
+  >        <img
+  src={diagram}
+  style={{
+    position: "absolute",
+    zIndex: "1",
+    top: "+30px",
+    width: "450px",
+  }}
+  alt="diagram"
+/>
                 <div style={{ position: "absolute", marginLeft: "50px", zIndex: "2", top: "180px", width: "30px", height: "auto" }}>
                   <img src={leftArrow} style={{ position: "absolute", left: "5px", width: "100px", height: "auto", opacity: curPos === "left" ? 0 : 1, transition: "opacity 0.3s ease-in-out" }} alt="left-arrow" />
                   <img src={rightArrow} style={{ position: "absolute", right: "15px", width: "100px", height: "auto", opacity: curPos === "right" ? 0 : 1, transition: "opacity 0.3s ease-in-out" }} alt="right-arrow" />
                 </div>
+
               <Draggable axis="x" onDrag={handleDrag} position={{ x: xPos - 50, y: 0 }}>
 
                 <img src={SupplyCurvePic} draggable="false" style={{ position: "absolute", marginLeft: "-100px", zIndex: "2", top: "+80px", width: "400px", height: "auto" }} alt="s-curve" />
 
               </Draggable>
-              <div style={{ marginTop: "450px", marginBottom: "550px" }}>
-                <form onSubmit={handleSubmit}>
-                  <Button type="submit">Submit Answer</Button>
-                </form>
-              </div>
+              
+              <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "405px",
+          }}
+  >
+    <form onSubmit={handleSubmit}>
+      <Button type="submit">Submit Answer</Button>
+    </form>
+  </div>
+
             </div>
+
           </div>
           </div>
+          
         </div>
+
       </Box>
     </Modal>
   );

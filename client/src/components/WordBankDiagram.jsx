@@ -73,7 +73,7 @@ export default function WordBankDiagram(props) {
     <div>
       {currentQuestion && (
         <div style={{ position: "relative"}}>
-        <h3>Question: {currentQuestion.question}</h3>
+        <h3 style={{ maxWidth: "80vw" }}>Question: {currentQuestion.question}</h3>
           <div style={{ marginBottom: "20px" }}>
             {currentQuestion.wordBank.map((answer, index) => (
               <button
