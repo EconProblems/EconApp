@@ -150,49 +150,39 @@ export default function SupplyCurve(props) {
 
   return (
     <Modal
-      open={props.isModalOpen}
-      onClose={handleClose}
-      style={{
+    open={props.isModalOpen}
+    onClose={handleClose}
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#ffffff',
+        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+        textAlign: 'center',
+        position: 'relative',
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center',
-        overflow:'scroll',
-        height:'100%',
-        overflowY: 'scroll',
-        display:'block'
-    
+        alignItems: 'center',
       }}
     >
-      <Box
-        sx={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: '#ffffff',
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
-          textAlign: 'center',
-          position: 'absolute',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          overflow: 'auto',
-        }}
-      >
-        
-        <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '20px',
-          overflowY: 'auto', 
-          maxHeight: 'calc(100vh - 40px)',
-        }}>
-          <div style={{ position: "absolute", top: 0, left: 0, zIndex: "3" }}>
-            <img src={close} alt="close" onClick={handleClose} />
+  <div
+  style={{
+    width: '95%',
+    height: '95%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '20px',
+  }}>
+
+          <div style={{ position: "absolute", top: 0, left: 0, zIndex: 3 }}>
+            <img src={close} alt="close" onClick={handleClose} style={{ margin: "10px", height: "25px", width: "auto" }} />
           </div>
           <div style={{ position: "fixed", top: "20px", left: "50px", width: "90%", zIndex: "3" }}>
             {prog > 0 ? (

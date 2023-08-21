@@ -23,6 +23,9 @@ import AboutModal from "./AboutModal.jsx";
 import SupplyUnitModal from "./SupplyUnitModal.jsx";
 import coin from "../../dist/coin.png";
 import supplyAwardGrey from "../../dist/images/supplyAwardGrey.png"
+import demandImage from "../../dist/images/demandLogo.png"
+import DemandUnitModal from "./DemandUnitModal.jsx";
+
 
 export default function App() {
   const [view, setView] = useState({ name: "App" });
@@ -39,7 +42,7 @@ export default function App() {
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [isSupplyUnitModalOpen, setIsSupplyUnitModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
+  const [isDemandUnitModalOpen, setIsDemandUnitModalOpen] = useState(false);
   const [isClickable, setIsClickable] = useState({
     supply1: true,
     supply2: false,
@@ -130,7 +133,7 @@ export default function App() {
 
 
 
-  const UnitButton = ({ onClick, label }) => {
+  const UnitButton = ({ onClick, label, unitImageSource }) => {
     // Determine the color based on the isClickable prop
     const buttonColor = theme.palette.primary.light;
 
@@ -145,7 +148,7 @@ export default function App() {
           sx={{
             borderRadius: "15px",
             boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-            width: "250px",
+            width: "300px",
             height: "70px",
             marginBottom: "40px",
             textTransform: "none",
@@ -157,7 +160,7 @@ export default function App() {
           onClick={onClick}
         >
           {label}
-          <img src={supplyAwardGrey} style={{width: "45px", height: "auto", margin: "17px", borderRadius: "5px"}}/>
+          <img src={unitImageSource} style={{width: "45px", height: "auto", margin: "17px", borderRadius: "5px"}}/>
         </Button>
       </div>
     );
@@ -224,6 +227,7 @@ export default function App() {
             <UnitButton
               label="Supply Unit"
               isClickable={isClickable.supply1}
+              unitImageSource={supplyAwardGrey}
             />
           </form>
           < br/>
@@ -243,6 +247,14 @@ export default function App() {
             <AppButton
               label="Supply 3"
               isClickable={isClickable.supply3}
+            />
+          </form>
+          < br/>
+          <form >
+            <UnitButton
+              label="Demand Unit"
+              onClick={handleDemandUnitSubmit}
+              unitImageSource={demandImage}
             />
           </form>
           <span style={{ color: 'red', fontStyle: 'italic' }}>Future units to be built will include micro, macro, trade, development, and personal finance concepts ranging from supply and demand to fun things like aggregate supply and tariffs!</span>
@@ -282,7 +294,10 @@ export default function App() {
     }
   };
 
-
+  const handleDemandUnitSubmit = (e) => {
+    e.preventDefault();
+      openDemandUnitModal();
+  };
   const handleNewUserSubmit = () => {
     console.log("clicked button");
     setDisplayNewUser(true);
@@ -316,8 +331,12 @@ export default function App() {
     setIsFriendsModalOpen(true);
   }
 
-    const openSupplyUnitModal = () => {
+  const openSupplyUnitModal = () => {
     setIsSupplyUnitModalOpen(true);
+  }
+
+  const openDemandUnitModal = () => {
+    setIsDemandUnitModalOpen(true);
   }
 
   const openAboutModal = () => {
@@ -431,6 +450,7 @@ export default function App() {
                   {renderView()}
                   {isFriendsModalOpen && <FriendsModal userProfileData={userProfileData} setUserProfileData={setUserProfileData} isFriendsModalOpen={isFriendsModalOpen} setIsFriendsModalOpen={setIsFriendsModalOpen} setUserProfileData={setUserProfileData}/>}
                   {isSupplyUnitModalOpen && <SupplyUnitModal isSupplyUnitModalOpen={isSupplyUnitModalOpen} setIsSupplyUnitModalOpen={setIsSupplyUnitModalOpen} setUserProfileData={setUserProfileData}/>}
+                  {isDemandUnitModalOpen && <DemandUnitModal isDemandUnitModalOpen={isDemandUnitModalOpen} setIsDemandUnitModalOpen={setIsDemandUnitModalOpen} setUserProfileData={setUserProfileData}/>}
 
                   {isAboutModalOpen && <AboutModal openAboutModal={openAboutModal} isAboutModalOpen={isAboutModalOpen} setIsAboutModalOpen={setIsAboutModalOpen}/>}
               </div>

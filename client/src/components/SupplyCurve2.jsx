@@ -221,7 +221,7 @@ export default function SupplyCurve2(props) {
 
 
     <div style={{ position: "absolute", top: 0, left: 0, zIndex: "3" }}>
-        <img src={close} alt="close" onClick={handleClose} />
+    <img src={close} alt="close" onClick={handleClose} style={{ margin: "10px", height: "25px", width: "auto" }} />
     </div>
       <div style={{ position: "fixed", top: "20px", left: "50px", width: "90%", zIndex: "3" }}>
         {prog > 0 ? (
