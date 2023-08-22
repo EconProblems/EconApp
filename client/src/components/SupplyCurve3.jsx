@@ -157,45 +157,55 @@ export default function SupplyCurve3(props) {
         justifyContent: 'center',
       }}
     >
-      <Box
-        sx={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: '#ffffff',
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
-          textAlign: 'center',
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          overflow: 'auto',
-        }}
-      >
-        <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '20px',
-          overflowY: 'auto',
-        }}>
-          <div style={{ position: "absolute", top: 0, left: 0, zIndex: "3" }}>
-          <img src={close} alt="close" onClick={handleClose} style={{ margin: "10px", height: "25px", width: "auto" }} />
-          </div>
-        <div style={{ position: "fixed", top: "20px", left: "50px", width: "90%", zIndex: "3" }}>
-            {prog > 0 ? (
+    <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#ffffff',
+            boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+            textAlign: 'center',
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div
+            style={{
+              maxHeight: "100vh",
+              overflow: "auto", 
+              overflowX: "hidden",
+              margin: "10px",
+              marginTop: "20px",
+              marginBottom: "40px",
+                    // Hide scrollbar for Chrome, Safari, and Opera
+              scrollbarWidth: 'none',
+              // Hide scrollbar for IE, Edge, and Firefox
+              msOverflowStyle: 'none',
+              '&::webkitScrollbar': {
+                width: '0px',
+                // background: 'transparent', // Optional: If you want to hide the scrollbar track.
+              },
+            }}
+          >
+        <div >
+          <img src={close} alt="close" onClick={handleClose} style={{position: "absolute", top: 0, left: 0, zIndex: 3, margin: "10px", height: "25px", width: "auto" }} />
+          <div style={{ position: "absolute", top: "18px", left: "35px", zIndex: 3, width: "95%"  }}>
+          {prog > 0 ? (
               <ProgressBar completed={prog} style={progressBarStyle} />
             ) : (
               <div style={{ width: "90%", height: "10px", border: "1px solid #ccc" }} />
-            )}
-                    <div style={{ left: "20px", display: "flex", zIndex: "3" }}>
-          {coins.map((coin, i) => (
-            <img src={coin} key={i} alt={`coin-${i}`} style={{ marginLeft: "5px", width: "50px" }} />
-          ))}
+          )}
+              <div style={{  position: "absolute", left: "20px" }}>
+                {coins.map((coin, i) => (
+                <img src={coin} key={i} alt={`coin-${i}`} style={{ marginLeft: "5px", width: "50px" }} />
+              ))}
+              </div>
           </div>
+        </div>
+          <br />
+          <div style={{ position: "relative" }}>
           {/* </div> */}
       {isDiagram && (
         <SCurveDiagram

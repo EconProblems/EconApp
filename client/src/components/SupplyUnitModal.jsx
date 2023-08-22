@@ -16,7 +16,7 @@ const NoScrollbarDialogContent = styled(DialogContent)({
   msOverflowStyle: 'none',
   '&::-webkit-scrollbar': {
     width: '0px',
-    background: 'transparent', // Optional: If you want to hide the scrollbar track.
+    // background: 'transparent', // Optional: If you want to hide the scrollbar track.
   },
   '& img': {
     width: '40%', // Set the width to 50% of its original size

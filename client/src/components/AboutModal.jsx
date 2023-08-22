@@ -25,7 +25,7 @@ export default function AboutModal(props) {
         </Typography>
         <Box mt={2}>
           <Typography>
-            Welcome to EconSolutions! The goal of this project is to give you an interactive experience where you can practice your Economics skills. Eventually, we hope to have a wide variety of interactive apps for you to play and learn with that involve a multitude of econ topics. Please continue to check back with us as we grow. Send any feedback to economicsproblems@gmail.com.
+            Welcome to EconSolutions! The goal of this project is to give you an interactive experience where you can practice your Economics skills. Eventually we hope to have a wide variety of interactive apps for you to play and learn with that involve a multitude of econ topics. Please continue to check back with us as we grow.  <br />Send any feedback to economicsproblems@gmail.com.
           </Typography>
         </Box>
       </Box>

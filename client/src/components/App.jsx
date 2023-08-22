@@ -47,6 +47,7 @@ export default function App() {
     supply1: true,
     supply2: false,
     supply3: false,
+    demand1: false,
   });
 
 
@@ -85,6 +86,7 @@ export default function App() {
       supply1: true,
       supply2: skills.supply2,
       supply3: skills.supply3,
+      demand1: skills.demand1,
     };
     setIsClickable(isClickableValues);
     console.log(isClickable);
@@ -257,6 +259,13 @@ export default function App() {
               unitImageSource={demandImage}
             />
           </form>
+          <form onSubmit={handleDemandCurveSubmit1}>
+            <AppButton
+              label="Demand 1"
+              isClickable={isClickable.demand1}
+            />
+          </form>
+          < br/>
           <span style={{ color: 'red', fontStyle: 'italic' }}>Future units to be built will include micro, macro, trade, development, and personal finance concepts ranging from supply and demand to fun things like aggregate supply and tariffs!</span>
 
         </div>
@@ -290,6 +299,13 @@ export default function App() {
   const handleSupplyCurveSubmit3 = (e) => {
     e.preventDefault();
     if (isClickable.supply3) {
+      changeView("SupplyCurve3");
+    }
+  };
+
+  const handleDemandCurveSubmit1 = (e) => {
+    e.preventDefault();
+    if (isClickable.demand1) {
       changeView("SupplyCurve3");
     }
   };
