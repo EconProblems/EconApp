@@ -1,14 +1,14 @@
 const demandQuestions = [
   {
-    question: 'What will happen to the demand of oranges if new studies determine they prevent cancer?',
+    question: 'What will happen to the demand for oranges if new studies determine they prevent cancer?',
     pos:'right'
   },
   {
-    question: 'What will happen to the demand of chicken if the price of pork triples?',
+    question: 'What will happen to the demand for chicken if the price of pork triples?',
     pos:'right'
   },
   {
-    question: 'What will happen to the demand of gas stoves if new environmental regulations makes natural gas more expensive',
+    question: 'What will happen to the demand of gas stoves if new environmental regulations make natural gas more expensive?',
     pos:'left'
   },
   {
@@ -24,7 +24,7 @@ const demandQuestions = [
     pos:'right'
   },
   {
-    question: 'What will happen to the demand for ?',
+    question: 'What will happen to the demand for oversized foam fingers if the team makes the playoffs?',
     pos:'right'
   },
   {
@@ -37,21 +37,21 @@ const demandQuestions2 = {
   lesson: 'demand2',
   questions: [
   {
-    question: 'What determinant of demand is impacted when pizza is has a prominent role in the blockbuster movie of the summer?',
+    question: 'What determinant of demand is impacted when pizza has a prominent role in the blockbuster movie of the summer?',
     pos: '',
     wordBank: ['taste', 'income', 'price of related goods', 'expectations'],
     wordAns: ['taste'],
     ans:"Everyone is going to want to nosh some 'za and demand will increase."
   },
   {
-    question: 'What determinant of demand of kitties is impacted when cats are proven to be superheroes capable of saving the univers',
+    question: 'What determinant of demand for kitties is impacted when cats are proven to be superheroes capable of saving the universe?',
     pos:'',
     wordBank: ['taste', 'income', 'price of related goods', 'expectations'],
     wordAns: ['taste'],
     ans:"Everyone wants to stay safe. Some people lock their doors, others let Mr. Boots and his nine lives stomp the bad guys."
   },
   {
-    question: 'What will happen to the demand for bidetss if toiler paper becomes rare and costs $100 a roll?',
+    question: 'What will happen to the demand for bidets if toiler paper becomes rare and costs $100 a roll?',
     pos:'',
     wordBank: ['taste', 'income', 'price of related goods', 'expectations'],
     wordAns: ['price of related goods'],
@@ -65,14 +65,14 @@ const demandQuestions2 = {
     ans:'We change our habits when income increases and decreases. People tend to purchase only the necessities if they have less disposable income.'
   },
   {
-    question: 'What will happen to the demand for snowmobiles if climate scientists predict that ice age will form wihtin a year?',
+    question: 'What will happen to the demand for snowmobiles if climate scientists predict that ice age will form within a year?',
     pos:'',
     wordBank: ['taste', 'income', 'price of related goods', 'expectations'],
     wordAns: ['expectations'],
     ans:'People purchase what they think they will need. If we are going to wan to use something, we will buy it.'
   },
   {
-    question: 'What will happen to the demand for battle axes if broard swords become incredibly expensive',
+    question: 'What will happen to the demand for battle axes if broad swords become incredibly expensive?',
     wordBank: ['taste', 'income', 'price of related goods', 'expectations'],
     pos:'',
     wordAns: ['price of related goods'],
@@ -86,7 +86,7 @@ const demandQuestions2 = {
     ans: 'Stricter environmental standards affect the willingness and ability of entrepreneurs to produce, thus impacting the supply.'
   },
   {
-    question: 'Which determinant of demand for sweater vests is impacted when your econ teacher across the country start the shirt that leaves room for the pits to breathe?',
+    question: 'Which determinant of demand for sweater vests is impacted when econ teachers across the country start a trend for the shirt that leaves room for the pits to breathe?',
     wordBank: ['taste', 'income', 'price of related goods', 'expectations'],
     pos:'',
     wordAns: ['taste'],
@@ -102,7 +102,7 @@ const demandQuestions2 = {
   ]
 }
 
-const supplyQuestions3 = {
+const demandQuestions3 = {
   lesson: 'supply3',
   questions: [
     {
@@ -110,7 +110,7 @@ const supplyQuestions3 = {
       pos: 'right'
     },
     {
-      question: 'How will the demand  of Ataris when they are featured in a new hit show?',
+      question: 'How will the demand  of Ataris be impacted when they are featured in a new hit show?',
       pos: 'right'
     },
     {
@@ -134,7 +134,7 @@ const supplyQuestions3 = {
       pos: 'left'
     },
     {
-      question: 'Which determinant of demand is impacted when people realize truffula. trees should not be turned into thneads?',
+      question: 'Which determinant of demand is impacted when people realize truffula trees should not be turned into thneads?',
       wordBank: ['taste', 'income', 'price of related goods', 'expectations'],
       wordAns: ['taste'],
       ans: 'We know now that we are now better to let the barbaloots do there thing.'

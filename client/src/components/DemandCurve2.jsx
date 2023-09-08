@@ -1,59 +1,48 @@
 import React, { useState, useEffect } from "react";
-import Draggable from 'react-draggable';
-import SCurve from "../../dist/SCurve.png";
-// import diagram from "../../dist/diagram.png";
-import SupplyCurvePic from "../../dist/images/SupplyCurve.png";;
-import diagram from "../../dist/images/BlankMicro.png";
-import supplyQuestions from "../../../DummyData/dummyData.js";
+import Draggable from "react-draggable";
 import ProgressBar from "react-progressbar";
-import coin from "../../dist/coin.png";
 import useSound from 'use-sound';
 import correct from '../../dist/sounds/correct.wav';
 import incorrect from '../../dist/sounds/incorrect.wav';
+import { demandQuestions2 } from "../../../DummyData/demandDummyData.js";
+import coin from "../../dist/coin.png";
 import close from "../../dist/images/close_icon.png";
-import theme from "../themes/default.jsx";
 import Modal from '@mui/material/Modal';
 import { Typography, Button, Box } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import axios from 'axios';
-import leftArrow from "../../dist/images/leftArrow.png"
-import rightArrow from "../../dist/images/rightArrow.png"
 
-
-export default function SupplyCurve(props) {
-  const percent = 100 / supplyQuestions.supplyQuestions.length;
-  const [questions, setQuestions] = useState(supplyQuestions.supplyQuestions);
+export default function DemandCurve2(props) {
+  const percent = 100 / demandQuestions2.questions.length;
+  const [questions, setQuestions] = useState(demandQuestions2.questions);
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [xPos, setXPos] = useState(100);
   const [curPos, setCurPos] = useState('');
   const [prog, setProg] = useState(0);
   const [playCorrect] = useSound(correct);
   const [playIncorrect] = useSound(incorrect);
-  const [coins, setCoins] = useState([coin, coin, coin]);
+  const [coins, setCoins] = useState([coin, coin, coin])
 
   const theme = useTheme();
-  
+
   useEffect(() => {
     setNextQuestion();
   }, []);
 
   const setNextQuestion = () => {
     playCorrect();
-    const randomIndex = Math.floor(Math.random() * questions.length);
-    setCurrentQuestion(questions[randomIndex]);
-
-    setQuestions(prevQuestions => {
-      const newQuestions = [...prevQuestions];
-      newQuestions.splice(randomIndex, 1);
-      return newQuestions;
-    });
-
     if (questions.length === 0) {
       alert("You've completed the lesson!");
-      // send db put
+
+
       const updatedSkills = {
         skills: {
-          supply2: true
+            supply2: true,
+            supply3: true,
+            demand1: true,
+            demand2: true,
+            demand3: true,
         },
         id: props.userProfileData._id
       };
@@ -70,9 +59,23 @@ export default function SupplyCurve(props) {
       });
       props.changeView('App');
       handleClose();
+
+      props.changeView('App');
+      return;
     }
-    setXPos(100);
-    setCurPos('');
+
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    setCurrentQuestion(questions[randomIndex]);
+
+    setQuestions(prevQuestions => {
+      const newQuestions = [...prevQuestions];
+      newQuestions.splice(randomIndex, 1);
+      return newQuestions;
+    });
+
+
+    console.log(questions);
+    setSelectedAnswers([]);
   };
 
   const incorrectSetNextQuestion = () => {
@@ -80,47 +83,66 @@ export default function SupplyCurve(props) {
     let coinsCopy = coins;
     coinsCopy.splice(0, 1);
     setCoins(coinsCopy);
-
     if (coins.length === 0) {
       alert("You have run out of coins");
-      props.setIsModalOpen(false);
-      props.changeView('App');
+        props.changeView('App');
+        return;
     }
-
     if (prog > 0) {
       setProg(prog - percent);
     }
 
     setQuestions(prevQuestions => {
       const newQuestions = [...prevQuestions];
-      const randomIndex = Math.floor(Math.random() * supplyQuestions.supplyQuestions.length);
-      newQuestions.push(supplyQuestions.supplyQuestions[randomIndex]);
+      const randomIndex = Math.floor(Math.random() * demandQuestions2.length);
+      newQuestions.push(demandQuestions2[randomIndex]);
       return newQuestions;
     });
 
+    setSelectedAnswers([]);
+
     const randomSetIndex = Math.floor(Math.random() * questions.length);
     setCurrentQuestion(questions[randomSetIndex]);
-    setXPos(100);
-    setCurPos('');
   };
 
-  const handleDrag = (e, ui) => {
-    const { x } = ui;
-
-    if (x < 100) {
-      setXPos(0);
-      setCurPos('left');
-    } else if (x >= 100) {
-      setXPos(200);
-      setCurPos('right');
+  const toggleAnswer = (answer) => {
+    const updatedAnswers = [...selectedAnswers];
+    const answerIndex = updatedAnswers.indexOf(answer);
+    if (answerIndex !== -1) {
+      updatedAnswers.splice(answerIndex, 1);
     } else {
-      setXPos(x);
+      updatedAnswers.push(answer);
+    }
+    setSelectedAnswers(updatedAnswers);
+  };
+
+
+
+  const submitAnswer = (e) => {
+    e.preventDefault();
+    // Create a new array to avoid modifying the original state
+    let curSelectedAnswers = [...selectedAnswers];
+    curSelectedAnswers.sort();
+
+    // Create a new array to avoid modifying the original state
+    let wordAns = [...currentQuestion.wordAns];
+    wordAns.sort();
+
+    const wordAnsString = JSON.stringify(wordAns);
+    const curSelectedAnswersString = JSON.stringify(curSelectedAnswers);
+
+
+    if (wordAnsString === curSelectedAnswersString) {
+      setProg(prog + percent);
+      setNextQuestion();
+    } else {
+      incorrectSetNextQuestion();
+      setSelectedAnswers([]);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (currentQuestion.pos === curPos) {
       setXPos(100);
       setProg(prog + percent);
@@ -149,15 +171,15 @@ export default function SupplyCurve(props) {
 
 
   return (
-    <Modal
-    open={props.isModalOpen}
-    onClose={handleClose}
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
-  >
+      <Modal
+      open={props.isModalOpen}
+      onClose={handleClose}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
     <Box
       sx={{
         width: '100%',
@@ -177,8 +199,8 @@ export default function SupplyCurve(props) {
           maxHeight: "100vh",
           overflow: "auto", 
           overflowX: "hidden",
-          margin: "0px",
-          marginTop: "0px",
+          margin: "10px",
+          marginTop: "20px",
           marginBottom: "40px",
                 // Hide scrollbar for Chrome, Safari, and Opera
           scrollbarWidth: 'none',
@@ -190,85 +212,57 @@ export default function SupplyCurve(props) {
           },
         }}
       >
-        <div style={{ position: "relative" }}>
-          <img src={close} alt="close" onClick={handleClose} style={{position: "absolute", top: 0, left: "-12px", zIndex: 3, margin: "10px", height: "25px", width: "auto" }} />
+
+
+
+      <div >
+          <img src={close} alt="close" onClick={handleClose} style={{position: "absolute", top: 0, left: 0, zIndex: 3, margin: "10px", height: "25px", width: "auto" }} />
           <div style={{ position: "absolute", top: "18px", left: "35px", zIndex: 3, width: "95%"  }}>
           {prog > 0 ? (
               <ProgressBar completed={prog} style={progressBarStyle} />
             ) : (
               <div style={{ width: "90%", height: "10px", border: "1px solid #ccc" }} />
           )}
-              <div style={{  position: "absolute", left: "0px" }}>
+              <div style={{  position: "absolute", left: "20px" }}>
                 {coins.map((coin, i) => (
                 <img src={coin} key={i} alt={`coin-${i}`} style={{ marginLeft: "5px", width: "50px" }} />
               ))}
               </div>
           </div>
         </div>
-          <div >
-          <br />
+        <br />
           <div style={{ position: "relative" }}>
-
-    <div style={{ margin: "0px", marginTop: "45px", marginBottom: "40px" }}>
+      {currentQuestion && (
+        <div style={{ position: "relative"}}>
       <p style={{ maxWidth: "80vw" }}>{currentQuestion && currentQuestion.question}</p>
-      <span style={{ fontSize: "12px", color: "#E40066" }}>drag the curve left or right to answer the question</span>
-      <br />
-
-  </div>
-  <div
-    style={{
-      position: "relative",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      marginTop: "5px", 
-      size: "2em"
-    }}
-  >        <img
-  src={diagram}
-  style={{
-    position: "absolute",
-    zIndex: "1",
-    top: "-40px", 
-    width: "100",
-    height: "auto",
-    maxWidth: "450px",
-  }}
-  alt="diagram"
-/>
-                <div style={{ position: "absolute", marginLeft: "50px", zIndex: "2", top: "130px", width: "30px", height: "auto" }}>
-                  <img src={leftArrow} style={{ position: "absolute", left: "5px", width: "100px", height: "auto", opacity: curPos === "left" ? 0 : 1, transition: "opacity 0.3s ease-in-out" }} alt="left-arrow" />
-                  <img src={rightArrow} style={{ position: "absolute", right: "15px", width: "100px", height: "auto", opacity: curPos === "right" ? 0 : 1, transition: "opacity 0.3s ease-in-out" }} alt="right-arrow" />
-                </div>
-
-              <Draggable axis="x" onDrag={handleDrag} position={{ x: xPos - 50, y: 0 }}>
-
-                <img src={SupplyCurvePic} draggable="false" style={{ position: "absolute", marginLeft: "-100px", zIndex: "2", top: "+30px", width: "400px", height: "auto" }} alt="s-curve" />
-
-              </Draggable>
-              
-              <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginTop: "340px",
-          }}
-  >
-    <form onSubmit={handleSubmit}>
-      <Button type="submit">Submit Answer</Button>
-    </form>
-  </div>
-
-            </div>
-
+          <div style={{ marginBottom: "20px" }}>
+            {currentQuestion.wordBank.map((answer, index) => (
+              <button
+                key={index}
+                onClick={() => toggleAnswer(answer)}
+                style={{
+                  margin: "5px",
+                  background: selectedAnswers.includes(answer) ? theme.palette.secondary.main : theme.palette.background.default,
+                  color: selectedAnswers.includes(answer) ? theme.palette.text.primary : theme.palette.primary.main,
+                  padding: "8px 16px",
+                  borderRadius: "5px",
+                  border: "1px solid",
+                  borderColor: theme.palette.secondary.main,
+                  cursor: "pointer",
+                }}
+              >
+                {answer}
+              </button>
+            ))}
+          </div >
+          <div style={{ marginTop: "auto", marginBottom: "50px" }}>
+          <Button onClick={submitAnswer}>Submit</Button>
           </div>
-          </div>
-          
         </div>
-
+          )}
+        </div>
+        </div>
       </Box>
     </Modal>
   );
 }
-

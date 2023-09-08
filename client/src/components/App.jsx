@@ -9,23 +9,27 @@ import { AppBar, Toolbar, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import theme from "../themes/default.jsx";
-import ThemeExample from "./ThemeExample.jsx";
 import SupplyCurve from "./SupplyCurve.jsx";
 import SupplyCurve2 from "./SupplyCurve2.jsx";
 import SupplyCurve3 from "./SupplyCurve3.jsx";
 import PermanentDrawerLeft from "./Drawer.jsx";
 import FourOhFour from "./404.jsx";
-import GamePath from "./GamePath/GamePath.jsx";
 import Login from "./Login.jsx";
 import NewUser from "./NewUser.jsx";
 import FriendsModal from "./FriendsModal.jsx";
 import AboutModal from "./AboutModal.jsx";
 import SupplyUnitModal from "./SupplyUnitModal.jsx";
-import coin from "../../dist/coin.png";
 import supplyAwardGrey from "../../dist/images/supplyAwardGrey.png"
+import sdLogo from "../../dist/images/sdLogo.png"
 import demandImage from "../../dist/images/demandLogo.png"
 import DemandUnitModal from "./DemandUnitModal.jsx";
-
+import SDUnitModal from "./SDUnitModal.jsx";
+import DemandCurve from "./DemandCurve.jsx";
+import DemandCurve2 from "./DemandCurve2.jsx";
+import DemandCurve3 from "./DemandCurve3.jsx";
+import SupplyDemand1 from "./SupplyDemand1.jsx";
+import SupplyDemand2 from "./SupplyDemand2.jsx";
+import SupplyDemand3 from "./SupplyDemand3.jsx";
 
 export default function App() {
   const [view, setView] = useState({ name: "App" });
@@ -43,11 +47,14 @@ export default function App() {
   const [isSupplyUnitModalOpen, setIsSupplyUnitModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDemandUnitModalOpen, setIsDemandUnitModalOpen] = useState(false);
+  const [isSDUnitModalOpen, setIsSDUnitModalOpen] = useState(false);
   const [isClickable, setIsClickable] = useState({
     supply1: true,
     supply2: false,
     supply3: false,
     demand1: false,
+    demand2: false,
+    demand3: false,
   });
 
 
@@ -87,6 +94,13 @@ export default function App() {
       supply2: skills.supply2,
       supply3: skills.supply3,
       demand1: skills.demand1,
+      demand2: skills.demand2,
+      demand3: skills.demand3,
+      sd1: skills.sd1,
+      sd2: skills.sd2,
+      sd3: skills.sd3,
+      pcontrols1: skills.pcontrols1,
+
     };
     setIsClickable(isClickableValues);
     console.log(isClickable);
@@ -215,8 +229,18 @@ export default function App() {
         return <SupplyCurve2 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}/>;
       case "SupplyCurve3":
         return <SupplyCurve3 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />;
-      case "theme":
-        return <ThemeExample />;
+      case "DemandCurve1":
+        return <DemandCurve changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />;
+      case "DemandCurve2":
+          return <DemandCurve2 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />;
+      case "DemandCurve3":
+          return <DemandCurve3 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />;        
+      case "SD1":
+          return <SupplyDemand1 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />;          
+      case "SD2":
+          return <SupplyDemand2 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />;  
+      case "SD3":
+          return <SupplyDemand3 changeView={changeView} setUserProfileData={setUserProfileData} userProfileData={userProfileData} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />;              
       case "App":
         return (
           <div>
@@ -259,10 +283,53 @@ export default function App() {
               unitImageSource={demandImage}
             />
           </form>
+          <br />
           <form onSubmit={handleDemandCurveSubmit1}>
             <AppButton
               label="Demand 1"
               isClickable={isClickable.demand1}
+            />
+          </form>
+          < br/>
+          <form onSubmit={handleDemandCurveSubmit2}>
+            <AppButton
+              label="Demand 2"
+              isClickable={isClickable.demand2}
+            />
+          </form>
+          < br/>
+          <form onSubmit={handleDemandCurveSubmit3}>
+            <AppButton
+              label="Demand 3"
+              isClickable={isClickable.demand3}
+            />
+          </form>
+          < br/>
+          <form onSubmit={handleSDUnitSubmit}>
+            <UnitButton
+              label="Supply & Demand Unit"
+              unitImageSource={sdLogo}
+            />
+          </form>
+          < br/>
+          <form onSubmit={handleSDSubmit}>
+            <AppButton
+              label="Supply and Demand 1"
+              isClickable={isClickable.sd1}
+            />
+          </form>
+          < br/>
+          <form onSubmit={handleSD2Submit}>
+            <AppButton
+              label="Supply and Demand 2"
+              isClickable={isClickable.sd2}
+            />
+          </form>
+          < br/>
+          <form onSubmit={handleSD3Submit}>
+            <AppButton
+              label="Supply and Demand 3"
+              isClickable={isClickable.sd3}
             />
           </form>
           < br/>
@@ -306,7 +373,42 @@ export default function App() {
   const handleDemandCurveSubmit1 = (e) => {
     e.preventDefault();
     if (isClickable.demand1) {
-      changeView("SupplyCurve3");
+      changeView("DemandCurve1");
+    }
+  };
+
+  const handleDemandCurveSubmit2 = (e) => {
+    e.preventDefault();
+    if (isClickable.demand2) {
+      changeView("DemandCurve2");
+    }
+  };
+
+  const handleDemandCurveSubmit3 = (e) => {
+    e.preventDefault();
+    if (isClickable.demand3) {
+      changeView("DemandCurve3");
+    }
+  };
+
+  const handleSDSubmit = (e) => {
+    e.preventDefault();
+    if (isClickable.sd1) {
+      changeView("SD1");
+    }
+  };
+
+  const handleSD2Submit = (e) => {
+    e.preventDefault();
+    if (isClickable.sd2) {
+      changeView("SD2");
+    }
+  };
+
+  const handleSD3Submit = (e) => {
+    e.preventDefault();
+    if (isClickable.sd3) {
+      changeView("SD3");
     }
   };
 
@@ -314,6 +416,13 @@ export default function App() {
     e.preventDefault();
       openDemandUnitModal();
   };
+
+  const handleSDUnitSubmit = (e) => {
+    e.preventDefault();
+      openSDUnitModal();
+  };
+  
+
   const handleNewUserSubmit = () => {
     console.log("clicked button");
     setDisplayNewUser(true);
@@ -353,6 +462,10 @@ export default function App() {
 
   const openDemandUnitModal = () => {
     setIsDemandUnitModalOpen(true);
+  }
+
+  const openSDUnitModal = () => {
+    setIsSDUnitModalOpen(true);
   }
 
   const openAboutModal = () => {
@@ -459,7 +572,6 @@ export default function App() {
           )}
           {isUser && loggedIn && (
             <>
-              <button onClick={handleThemeExample}>Theme Example</button>
               <div style={{ height: '75vh' }}>
               <br />
               <div style={{ overflowY: 'auto', position: 'center' }}>
@@ -467,6 +579,7 @@ export default function App() {
                   {isFriendsModalOpen && <FriendsModal userProfileData={userProfileData} setUserProfileData={setUserProfileData} isFriendsModalOpen={isFriendsModalOpen} setIsFriendsModalOpen={setIsFriendsModalOpen} setUserProfileData={setUserProfileData}/>}
                   {isSupplyUnitModalOpen && <SupplyUnitModal isSupplyUnitModalOpen={isSupplyUnitModalOpen} setIsSupplyUnitModalOpen={setIsSupplyUnitModalOpen} setUserProfileData={setUserProfileData}/>}
                   {isDemandUnitModalOpen && <DemandUnitModal isDemandUnitModalOpen={isDemandUnitModalOpen} setIsDemandUnitModalOpen={setIsDemandUnitModalOpen} setUserProfileData={setUserProfileData}/>}
+                  {isSDUnitModalOpen && <SDUnitModal isSDUnitModalOpen={isSDUnitModalOpen} setIsSDUnitModalOpen={setIsSDUnitModalOpen} setUserProfileData={setUserProfileData}/>}
 
                   {isAboutModalOpen && <AboutModal openAboutModal={openAboutModal} isAboutModalOpen={isAboutModalOpen} setIsAboutModalOpen={setIsAboutModalOpen}/>}
               </div>

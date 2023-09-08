@@ -19,18 +19,18 @@ const supplyQuestions = [
     question: 'What will happen to the global coffee supply if Vietnam plants millions more acres of coffee trees?',
     pos:'right'
   },
-  // {
-  //   question: 'What will happen to the supply of gasoline if the government demands refineries install new pollution reducing technologies?',
-  //   pos:'left'
-  // },
-  // {
-  //   question: 'What will happen to the supply of bread in town if rents are decreased on bakeries?',
-  //   pos:'right'
-  // },
-  // {
-  //   question: 'What will happen to the supply of shirts if cotton plants are engineered to have a greater yield with less water?',
-  //   pos:'right'
-  // }
+  {
+    question: 'What will happen to the supply of gasoline if the government demands refineries install new pollution reducing technologies?',
+    pos:'left'
+  },
+  {
+    question: 'What will happen to the supply of bread in town if rents are decreased on bakeries?',
+    pos:'right'
+  },
+  {
+    question: 'What will happen to the supply of shirts if cotton plants are engineered to have a greater yield with less water?',
+    pos:'right'
+  }
 ]
 
 const supplyQuestions2 = {

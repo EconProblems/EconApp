@@ -18,8 +18,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import supplyAward from "../../dist/SupplyAward.png";
+import demandAward from "../../dist/images/demandLogo.png";
 import Tooltip from '@mui/material/Tooltip';
-
+import sdLogo from "../../dist/images/sdLogo.png";
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
@@ -100,9 +101,12 @@ export default function PermanentDrawerLeft(props) {
   };
 
   const renderInnerDrawer = () => {
-    let awardsImage = null;
+    let SupplyAwardsImage = null;
+    let DemandAwardsImage = null;
+    let SupplyDemandAwardsImage = null;
+
     if (selectedLink === 'Awards' && props.userProfileData.skills?.demand1) {
-      awardsImage = (
+      SupplyAwardsImage = (
         <Tooltip title="You've mastered the basics of Supply!">
         <img
           src={supplyAward}
@@ -111,8 +115,30 @@ export default function PermanentDrawerLeft(props) {
         />
       </Tooltip>
       )
-    } else {
-      awardsImage = <span style={{ color: "red" }}>No Awards Yet</span>;
+    } 
+    if (selectedLink === 'Awards' && props.userProfileData.skills?.demand1) {
+      DemandAwardsImage = (
+        <Tooltip title="You've mastered the basics of Demand!">
+        <img
+          src={demandAward}
+          alt="Demand Award"
+          style={{ width: '70px', height: '70px', borderRadius: '8px' }}
+        />
+      </Tooltip>
+      )
+    } if (selectedLink === 'Awards' && props.userProfileData.skills?.pControls1) {
+      SupplyDemandAwardsImage = (
+        <Tooltip title="You've mastered the basics of Supply AND Demand!">
+        <img
+          src={sdLogo}
+          alt="Supply and Demand Award"
+          style={{ width: '70px', height: '70px', borderRadius: '8px' }}
+        />
+      </Tooltip>
+      )
+    }
+    if (SupplyAwardsImage === null) {
+      SupplyAwardsImage = <span style={{ color: "red" }}>No Awards Yet</span>;
     }
 
     let innerDrawerContent;
@@ -138,7 +164,7 @@ export default function PermanentDrawerLeft(props) {
           <br />
           <Typography variant="h3" >{<span>&nbsp; &nbsp;</span>}Awards</Typography>
           <br />
-          {<span>&nbsp; &nbsp;</span>}{awardsImage}
+          {<span>&nbsp; &nbsp;</span>}{SupplyAwardsImage}{DemandAwardsImage}
         </div>
       );
         break;
@@ -314,12 +340,15 @@ export default function PermanentDrawerLeft(props) {
             width: drawerWidth,
             boxSizing: 'border-box',
             overflowX: 'hidden',
-          }
+            position: 'fixed', // Fixed position
+            top: "0", // Stick to the top
+            zIndex: "999", // Ensure it's on top of other content
+          },
         }}
-        anchor="left"
-        open={props.isDrawerOpen}
-        onClose={handleCloseSwipeable}
-      >
+          anchor="left"
+          open={props.isDrawerOpen}
+          onClose={handleCloseSwipeable}
+        >
         <img src="/images/Econ3.png"
           alt="SupplyAward"
           style={{ transform: 'scale(1.5)' }}

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Draggable from 'react-draggable';
-import SCurve from "../../dist/SCurve.png";
-// import diagram from "../../dist/diagram.png";
-import SupplyCurvePic from "../../dist/images/SupplyCurve.png";;
+import DemandCurvePic from "../../dist/images/DemandCurvePic.png";;
 import diagram from "../../dist/images/BlankMicro.png";
-import supplyQuestions from "../../../DummyData/dummyData.js";
+import { demandQuestions } from "../../../DummyData/demandDummyData.js";
 import ProgressBar from "react-progressbar";
 import coin from "../../dist/coin.png";
 import useSound from 'use-sound';
@@ -20,9 +18,9 @@ import leftArrow from "../../dist/images/leftArrow.png"
 import rightArrow from "../../dist/images/rightArrow.png"
 
 
-export default function SupplyCurve(props) {
-  const percent = 100 / supplyQuestions.supplyQuestions.length;
-  const [questions, setQuestions] = useState(supplyQuestions.supplyQuestions);
+export default function DemandCurve(props) {
+  const percent = 100 / demandQuestions.length;
+  const [questions, setQuestions] = useState(demandQuestions);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [xPos, setXPos] = useState(100);
   const [curPos, setCurPos] = useState('');
@@ -31,8 +29,9 @@ export default function SupplyCurve(props) {
   const [playIncorrect] = useSound(incorrect);
   const [coins, setCoins] = useState([coin, coin, coin]);
 
+
   const theme = useTheme();
-  
+
   useEffect(() => {
     setNextQuestion();
   }, []);
@@ -53,7 +52,10 @@ export default function SupplyCurve(props) {
       // send db put
       const updatedSkills = {
         skills: {
-          supply2: true
+          supply2: true,
+          supply3: true,
+          demand1: true,
+          demand2: true,
         },
         id: props.userProfileData._id
       };
@@ -93,8 +95,8 @@ export default function SupplyCurve(props) {
 
     setQuestions(prevQuestions => {
       const newQuestions = [...prevQuestions];
-      const randomIndex = Math.floor(Math.random() * supplyQuestions.supplyQuestions.length);
-      newQuestions.push(supplyQuestions.supplyQuestions[randomIndex]);
+      const randomIndex = Math.floor(Math.random() * demandQuestions.length);
+      newQuestions.push(demandQuestions[randomIndex]);
       return newQuestions;
     });
 
@@ -177,8 +179,8 @@ export default function SupplyCurve(props) {
           maxHeight: "100vh",
           overflow: "auto", 
           overflowX: "hidden",
-          margin: "0px",
-          marginTop: "0px",
+          margin: "10px",
+          marginTop: "20px",
           marginBottom: "40px",
                 // Hide scrollbar for Chrome, Safari, and Opera
           scrollbarWidth: 'none',
@@ -190,15 +192,15 @@ export default function SupplyCurve(props) {
           },
         }}
       >
-        <div style={{ position: "relative" }}>
-          <img src={close} alt="close" onClick={handleClose} style={{position: "absolute", top: 0, left: "-12px", zIndex: 3, margin: "10px", height: "25px", width: "auto" }} />
+        <div >
+          <img src={close} alt="close" onClick={handleClose} style={{position: "absolute", top: 0, left: 0, zIndex: 3, margin: "10px", height: "25px", width: "auto" }} />
           <div style={{ position: "absolute", top: "18px", left: "35px", zIndex: 3, width: "95%"  }}>
           {prog > 0 ? (
               <ProgressBar completed={prog} style={progressBarStyle} />
             ) : (
               <div style={{ width: "90%", height: "10px", border: "1px solid #ccc" }} />
           )}
-              <div style={{  position: "absolute", left: "0px" }}>
+              <div style={{  position: "absolute", left: "20px" }}>
                 {coins.map((coin, i) => (
                 <img src={coin} key={i} alt={`coin-${i}`} style={{ marginLeft: "5px", width: "50px" }} />
               ))}
@@ -209,7 +211,7 @@ export default function SupplyCurve(props) {
           <br />
           <div style={{ position: "relative" }}>
 
-    <div style={{ margin: "0px", marginTop: "45px", marginBottom: "40px" }}>
+    <div style={{ margin: "10px", marginTop: "20px", marginBottom: "40px" }}>
       <p style={{ maxWidth: "80vw" }}>{currentQuestion && currentQuestion.question}</p>
       <span style={{ fontSize: "12px", color: "#E40066" }}>drag the curve left or right to answer the question</span>
       <br />
@@ -229,21 +231,21 @@ export default function SupplyCurve(props) {
   style={{
     position: "absolute",
     zIndex: "1",
-    top: "-40px", 
+    top: "+30px", 
     width: "100",
     height: "auto",
     maxWidth: "450px",
   }}
   alt="diagram"
 />
-                <div style={{ position: "absolute", marginLeft: "50px", zIndex: "2", top: "130px", width: "30px", height: "auto" }}>
+                <div style={{ position: "absolute", marginLeft: "-30px", zIndex: "2", top: "180px", width: "30px", height: "auto" }}>
                   <img src={leftArrow} style={{ position: "absolute", left: "5px", width: "100px", height: "auto", opacity: curPos === "left" ? 0 : 1, transition: "opacity 0.3s ease-in-out" }} alt="left-arrow" />
                   <img src={rightArrow} style={{ position: "absolute", right: "15px", width: "100px", height: "auto", opacity: curPos === "right" ? 0 : 1, transition: "opacity 0.3s ease-in-out" }} alt="right-arrow" />
                 </div>
 
               <Draggable axis="x" onDrag={handleDrag} position={{ x: xPos - 50, y: 0 }}>
 
-                <img src={SupplyCurvePic} draggable="false" style={{ position: "absolute", marginLeft: "-100px", zIndex: "2", top: "+30px", width: "400px", height: "auto" }} alt="s-curve" />
+                <img src={DemandCurvePic} draggable="false" style={{ position: "absolute", marginLeft: "-10px", zIndex: "2", top: "+80px", width: "400px", height: "auto" }} alt="d-curve" />
 
               </Draggable>
               
@@ -252,7 +254,7 @@ export default function SupplyCurve(props) {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginTop: "340px",
+            marginTop: "405px",
           }}
   >
     <form onSubmit={handleSubmit}>
